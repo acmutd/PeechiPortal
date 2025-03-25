@@ -4,8 +4,6 @@ import {
   Carousel,
   CarouselItem,
   CarouselContent,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ThemeProvider } from "@/components/theme-provider";
 import landercard from '@/public/cgi/landercard.png';
@@ -73,10 +71,10 @@ export default function Home() {
                 </div>
                 <div className="md:w-1/2">
                   <p className="text-gray-300 mb-4 text-center">
-                    The Peechi Games are the first event of their kind in UT Dallas History.
+                    The Peechi Games are the first event of their kind in UT Dallas History. They are slated to be held at 2:00 PM on the 4th of April.
                   </p>
                   <p className="text-gray-300 mb-4 text-center">
-                  Understanding the many financial needs of our schools' students, we have decided to host a competition of sorts, with the winner taking home a substantial cash prize. Losers will not be so lucky. 
+                  Understanding the many financial needs of our schools&apos; students, we have decided to host a competition of sorts, with the winner taking home a substantial cash prize. Losers will not be so lucky. 
                   </p>
                   <p className="text-gray-300 mb-4 text-center">
                   In our benevolence, we have determined that a flat cash prize is insufficient for this event. Instead, <strong> for each competitor who shows up on the day of the competition, we will increase the prize pool by one dollar. </strong> If <strong>146</strong> competitors attend, the pool will be <strong>$146</strong>. If <strong>500</strong> attend, it will be <strong>$500</strong>.
@@ -93,7 +91,7 @@ export default function Home() {
             <Card className="max-w-2xl mx-auto bg-gray-800 text-white">
               <CardContent className="p-6">
                 <p className="text-lg mb-4 text-center text-red-500">
-                  Due to the event's nature, <strong>only</strong> in-person sign-ups will be held.
+                  Due to the event&apos;s nature, <strong>only</strong> in-person sign-ups will be held.
                 </p>
                 <p className="mb-4 text-center">
                   We will have booths on campus from the <strong>25th</strong> through the <strong>28th</strong> of March.
