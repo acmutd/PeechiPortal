@@ -62,28 +62,28 @@ export default function Home() {
       }}
     >
         <div className="flex flex-row justify-between">
-          <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" className="mx-8 mt-8">
-            <Image src={acmPinkLogo} alt="ACM Logo" height={40} />
+          <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" className="mx-8 mt-8" draggable="false">
+            <Image src={acmPinkLogo} alt="ACM Logo" height={40} draggable="false"/>
           </Link>
           <div className="flex">
-            <Image src={profile} alt="PeechiProfile" width={40} height={40} className="mt-8"/>
+            <Image src={profile} alt="PeechiProfile" width={40} height={40} className="mt-8" draggable="false" />
             <div className="w-0 h-0 border-l-8 border-r-8 border-t-16 border-transparent border-t-white mt-12 ml-4"/>
           </div>
         </div>
 
         <div>
-          <Image src={peechiGamesLogoText} alt="PeechiGamesLogo" width={565} height={278} className="mt-32"/>
+          <Image src={peechiGamesLogoText} alt="PeechiGamesLogo" width={565} height={278} className="mt-32" draggable="false" />
           <h3 className="text-xl w-138 py-8">The Peechi Games are the first event of their kind in UT Dallas History. They are slated to be held at 2:00 PM on the 4th of April.</h3>
         </div>
 
         <div className="flex flex-row gap-4">
-        <Link href="/register"><div className="rounded-sm  bg-[#E84784] flex justify-center items-center p-4 w-28 h-10">
+        <Link href="/register" draggable="false" ><div className="rounded-sm  bg-[#E84784] flex justify-center items-center p-4 w-28 h-10" >
           <div className="w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-10 border-l-white pl-2"/>
           <h3>Register</h3>
         </div>
         </Link>
 
-        <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer">
+        <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" draggable="false" >
           <div className="rounded-sm  bg-white/30 bg-opacity-30 flex justify-center items-center p-2 w-55 h-10">
             <Image src={infoLogo} alt="Info Logo" height={20} className="mr-1"/>
             <h3>Learn more about ACM</h3>
@@ -180,9 +180,9 @@ export default function Home() {
         </div>
         
 
-        <div className="border-gray-700 border-t-2 mt-16 flex justify-center py-8">
-          <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" className="mx-8">
-            <Image src={acmPinkShapeLogo} alt="ACM Logo" height={40} />
+        <div className="border-gray-700 border-t-2 mt-16 flex justify-center py-8" >
+          <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" className="mx-8" draggable="false" >
+            <Image src={acmPinkShapeLogo} alt="ACM Logo" height={40} draggable="false" />
           </Link>
         </div>
       </div>
