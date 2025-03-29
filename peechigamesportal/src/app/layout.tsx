@@ -6,6 +6,7 @@ import "./globals.css";
 import solologo from '@/public/cgi/solologo.png';
 import acmlogo from '@/public/cgi/acmlogo.png';
 import AnimationOverlay from "@/components/AnimationOverlay";
+import acmPinkLogo from '@/public/cgi/acm-white 1.png';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,14 +34,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <AnimationOverlay />
-        <header className="bg-background/95 backdrop-blur flex h-16 items-center w-full justify-center">
-          <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" className="mx-8">
-            <Image src={acmlogo} alt="ACM Logo" height={40} />
-          </Link>
-          <Link href="/" className="mx-12">
-            <Image src={solologo} alt="Peechi Games Logo" height={50} />
-          </Link>
-        </header>
         <main className="flex-grow">
           {children}
         </main>
