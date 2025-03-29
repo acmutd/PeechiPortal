@@ -130,9 +130,6 @@ export function SignUpForm(){
         } catch (error) {
             console.error("Error adding document: ", error);
             setSubmitError("An error occurred while submitting the form. Please try again.");
-            console.log(auth);
-            console.log(auth.currentUser);
-            setNLIAlert(true)
         } finally {
             setIsSubmitting(false);
         }
