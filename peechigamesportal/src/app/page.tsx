@@ -41,9 +41,9 @@ import number2Photo from '@/public/cgi/numberTwoPhoto.png'
 import number3Photo from '@/public/cgi/number3Photo.png'
 
 export default function Home() {
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleFAQ = (index) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  
+  const toggleFAQ = (index : number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
