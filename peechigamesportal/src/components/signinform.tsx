@@ -30,7 +30,7 @@ import app from "@/app/firebase"
 
 const auth = getAuth(app);
 
-//3czX&7pp3$
+//Dummy Comment for Vercel
 const formSchema = z.object({
     email: z.string().email({ message: "Invalid email address" }),
     password: z.string(),
