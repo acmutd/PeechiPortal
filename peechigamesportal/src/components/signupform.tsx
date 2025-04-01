@@ -90,7 +90,7 @@ export function SignUpForm(){
             lastName: "",
             email: "",
             emailConfirmation: "",
-            discordUsername: "",
+            discordUsername: "n/a",
             school: "ECS",
             classification: "Freshman",
             optin: true,
@@ -194,22 +194,7 @@ export function SignUpForm(){
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="discordUsername"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Discord Username</FormLabel>
-                            <FormControl>
-                                <Input placeholder="glassshatter" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                Your Discord Username (no @ or #)
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+            
                 <FormField
                     control={form.control}
                     name="school"
