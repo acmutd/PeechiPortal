@@ -27,7 +27,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import app from "@/app/firebase"
+import {app} from "@/app/firebase"
 import {
     AlertDialog,
     AlertDialogAction,

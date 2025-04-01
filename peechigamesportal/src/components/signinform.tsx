@@ -26,7 +26,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import app from "@/app/firebase"
+import {app} from "@/app/firebase"
 
 const auth = getAuth(app);
 

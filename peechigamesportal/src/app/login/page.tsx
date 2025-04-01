@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import loginimg from '@/public/cgi/login.png';
 import type { NextPage } from "next";
 import AnimationOverlay from "@/components/AnimationOverlay";
-import app from "@/app/firebase"
+import {app} from "@/app/firebase"
 
 export default function Home() {
   return (
