@@ -12,5 +12,5 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-//Dummy comments
+//Dummy comment
 export default app;
