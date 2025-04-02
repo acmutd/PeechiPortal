@@ -34,7 +34,7 @@ function AdminPortal() {
 			let addPlayers: ParticipantInfo[] = [];
 
 			const playersRef = collection(db, "testParticipants");
-			const q = query(playersRef, where("firstName", "!=", "0")); // This query gets all players, but returns it sorted by the query field
+			const q = query(playersRef, where("playernumber", "!=", "")); // This query gets all players, but returns it sorted by the query field
 			const qSnapshot = await getDocs(q);
 			qSnapshot.forEach((doc) => {
 				addPlayers.push({
@@ -83,8 +83,8 @@ function AdminPortal() {
 			}
 			
 			for (let i = 0; i < elimIDs.length; i++) {
-				const playersToBeEliminatedRef = doc(db, "testParticipants", elimIDs[i]);
-				await updateDoc(playersToBeEliminatedRef, {
+				const playerToBeEliminatedRef = doc(db, "testParticipants", elimIDs[i]);
+				await updateDoc(playerToBeEliminatedRef, {
 					isEliminated: true
 				})
 			}
@@ -124,8 +124,8 @@ function AdminPortal() {
 			}
 			
 			for (let i = 0; i < reviveIDs.length; i++) {
-				const playersToBeEliminatedRef = doc(db, "testParticipants", reviveIDs[i]);
-				await updateDoc(playersToBeEliminatedRef, {
+				const playerToBeRevivedRef = doc(db, "testParticipants", reviveIDs[i]);
+				await updateDoc(playerToBeRevivedRef, {
 					isEliminated: false
 				})
 			}
@@ -145,7 +145,8 @@ function AdminPortal() {
 	// async function setTestPlayers() {
 	// 	for (let i = 1; i <= 50; i++) {
 	// 		await setDoc(doc(db, "testParticipants", `testPlayer${i}`), {
-	// 			playernumber: i,
+	// 			playernumber: null,
+	// 			discordUsername: `discord${i}`,
 	// 			firstName: `f_name${i}`,
 	// 			lastName: `l_name${i}`,
 	// 			isEliminated: false
