@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from '@/context/AuthProvider';
 import { doc, setDoc, getDoc, getCountFromServer, collection, query, where, getDocs, updateDoc } from "firebase/firestore";
 import { db } from '../firebase';
 import { Input } from '@/components/ui/input';
+import { ThemeProvider } from '@/components/theme-provider';
 
 type ParticipantInfo = {
 	id: string,
@@ -19,8 +20,8 @@ function AdminPortal() {
 	const [livingPlayers, setLivingPlayers] = useState<ParticipantInfo[]>([]);
 	const [deadPlayers, setDeadPlayers] = useState<ParticipantInfo[]>([]);
 
-	const [input, setInput] = useState('');
-	const [toElim, setToElim] = useState('');
+	const [elimInput, setElimInput] = useState('');
+	const [reviveInput, setReviveInput] = useState('');
 
 	useEffect(() => {
 		getRegistrants();
@@ -32,10 +33,16 @@ function AdminPortal() {
 			let addPlayers: ParticipantInfo[] = [];
 
 			const playersRef = collection(db, "testParticipants");
-			const q = query(playersRef, where("playernumber", "!=", "")); // This query gets all players, but returns it sorted by the query field
+			const q = query(playersRef, where("firstName", "!=", "0")); // This query gets all players, but returns it sorted by the query field
 			const qSnapshot = await getDocs(q);
 			qSnapshot.forEach((doc) => {
-				addPlayers.push({ id: doc.id, playerNum: doc.data().playernumber, fname: doc.data().firstName, lname: doc.data().lastName, isEliminated: doc.data().isEliminated }) // CHANGE ID TO PLAYERNUMBER FOR ACTUAL GAME
+				addPlayers.push({
+					id: doc.id,
+					playerNum: doc.data().playernumber,
+					fname: doc.data().firstName,
+					lname: doc.data().lastName,
+					isEliminated: doc.data().isEliminated
+				}) // CHANGE ID TO PLAYERNUMBER FOR ACTUAL GAME
 			})
 			setParticipantList(addPlayers);
 
@@ -71,34 +78,29 @@ function AdminPortal() {
 	}
 
 	async function elimPlayers() {
-		if (/^[\d,\s]+$/.test(input)) { // If there are only numbers, commas, and/or whitespaces in the input
-
+		if (/^[\d,\s]+$/.test(elimInput)) { // If there are only numbers, commas, and/or whitespaces in the input
 
 			// BASICALLY this needs to take the numbers we want to eliminate, find the id associated with them, and updated isEliminated for those id's in the db
-			console.log('weoi')
-			// setToElim(input);
-			const elimNums = input.replaceAll(' ', '').split(',').map((element) => parseInt(element));
-			console.log("elimNums: " + elimNums)
+			const elimNums = elimInput.replaceAll(' ', '').split(',').map((element) => parseInt(element));
 			let elimIDs: string[] = [];
+			let successfullyElimed: number[] = [];
 
 			// This literally runs in O(N^2) time, I am a horrible programmer
-			for (let i = 0; i < livingPlayers.length; i++) {
-				for (let j = 0; j < elimNums.length; j++) {
-					// console.log("i: " + i + ", livingPlayers[i].playerNum = " + livingPlayers[i].playerNum + "\nj: " + j + ", elimNums[j] = " + elimNums[j])
-					if (livingPlayers[i].playerNum === elimNums[j]) {
-						elimIDs.push(livingPlayers[i].id);
+			for (let i = 0; i < elimNums.length; i++) {
+				for (let j = 0; j < livingPlayers.length; j++) {
+					if (livingPlayers[j].playerNum === elimNums[i]) {
+						elimIDs.push(livingPlayers[j].id);
+						successfullyElimed.push(elimNums[i]);
 						// console.log("pushed " + livingPlayers[i].id)
 					}
 				}
 			}
-			console.log(elimIDs)
 			if (elimIDs.length === 0) {
 				window.confirm("No players eliminated.")
 			}
 			else {
-				window.confirm("Players eliminated.")
+				window.confirm("Players " + successfullyElimed + " eliminated.")
 			}
-
 
 			for (let i = 0; i < elimIDs.length; i++) {
 				const playersToBeEliminatedRef = doc(db, "testParticipants", elimIDs[i]);
@@ -109,75 +111,147 @@ function AdminPortal() {
 			getRegistrants();
 
 		}
-		else if (toElim === '') {
+		else if (elimInput === '') {
 			window.confirm("Please enter a value.")
 		}
 		else {
 			window.confirm("Please enter only numbers and commas.")
 		}
+	}
 
+	// This is basically elimPlayers copied but I don't think optimizing is worth my time here
+	async function revivePlayers() {
+		if (/^[\d,\s]+$/.test(reviveInput)) { // If there are only numbers, commas, and/or whitespaces in the input
+			console.log(reviveInput)
+			const reviveNums = reviveInput.replaceAll(' ', '').split(',').map((element) => parseInt(element));
+			let reviveIDs: string[] = [];
+			let successfullyRevived: number[] = [];
+			console.log(reviveNums)
 
+			// This literally runs in O(N^2) time, I am a horrible programmer
+			for (let i = 0; i < reviveNums.length; i++) {
+				for (let j = 0; j < deadPlayers.length; j++) {
+					if (deadPlayers[j].playerNum === reviveNums[i]) {
+						reviveIDs.push(deadPlayers[j].id);
+						successfullyRevived.push(reviveNums[i]);
+					}
+				}
+			}
+			if (reviveIDs.length === 0) {
+				window.confirm("No players revived.")
+			}
+			else {
+				window.confirm("Players " + successfullyRevived + " revived.")
+			}
 
+			for (let i = 0; i < reviveIDs.length; i++) {
+				const playersToBeEliminatedRef = doc(db, "testParticipants", reviveIDs[i]);
+				await updateDoc(playersToBeEliminatedRef, {
+					isEliminated: false
+				})
+			}
+			getRegistrants();
+
+		}
+		else if (reviveInput === '') {
+			window.confirm("Please enter a value.")
+		}
+		else {
+			window.confirm("Please enter only numbers and commas.")
+		}
 	}
 
 	return (
 		<AuthProvider>
-			<div className='p-4'>
-				<div className='flex flex-row gap-4'>
-					<button onClick={() => setTestPlayers()} className='p-4 bg-amber-300 hover:bg-red-200'>
-						generate test players
-					</button>
-					<button onClick={() => resetPlayers()} className='p-4 bg-amber-300 hover:bg-red-200'>
-						reset test players
-					</button>
+			<ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
 
-					<button onClick={() => getRegistrants()} className='p-4 bg-amber-300 hover:bg-red-200'>
-						Refresh
-					</button>
-				</div>
+				<div className='flex flex-col items-center p-4 gap-8'>
 
+					{/* Developer buttons */}
+					{/* <div className='flex flex-row gap-4'>
+						<button onClick={() => setTestPlayers()} className='p-4 bg-amber-300 hover:bg-red-200'>
+							generate test players
+						</button>
+						<button onClick={() => resetPlayers()} className='p-4 bg-amber-300 hover:bg-red-200'>
+							reset test players
+						</button>
 
+						<button onClick={() => getRegistrants()} className='p-4 bg-amber-300 hover:bg-red-200'>
+							Refresh
+						</button>
+					</div> */}
 
-
-				<h3 className='text-xl font-bold'>Alive Players</h3>
-				<Input
-					value={input}
-					onChange={e => setInput(e.target.value)}
-				/>
-				<button
-					onClick={elimPlayers}
-				>
-					Add
-				</button>
-				<p>{input}</p>
-
-				<div className='grid grid-cols-3 gap-4'>
-					{livingPlayers.map(person => (
-						<div
-							className='flex flex-col items-center border border-[#999999] bg-[#444444]/25 rounded-sm'
-							key={person.id}>
-							<p>{person.fname} {person.lname}</p>
-							<p>id: {person.id}</p>
-							<p>player num: {person.playerNum}</p>
+					{/* Eliminate and revive players */}
+					<div className='flex flex-col lg:flex-row gap-4 w-full'>
+						<div className='flex flex-col w-full items-center justify-center border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
+							<div>
+								<h3 className='text-xl text-center font-bold'>Eliminate Players</h3>
+								<p className='text-center'>Enter player numbers in a comma-separated list.</p>
+							</div>
+							<Input
+								value={elimInput}
+								onChange={e => setElimInput(e.target.value)}
+							/>
+							<button
+								className='mt-4 px-4 py-2 rounded-sm bg-red-500 hover:bg-red-700 active:bg-red-700'
+								onClick={elimPlayers}
+							>
+								Eliminate
+							</button>
 						</div>
-					))}
-				</div>
 
-
-				<h3 className='text-xl font-bold'>Dead Players</h3>
-				<div className='grid grid-cols-3 gap-4'>
-					{deadPlayers.map(person => (
-						<div
-							className='flex flex-col items-center border border-[#999999] bg-[#444444]/25 rounded-sm'
-							key={person.id}>
-							<p>{person.fname} {person.lname}</p>
-							<p>{person.id}</p>
-							<p>player num: {person.playerNum}</p>
+						<div className='flex flex-col w-full items-center justify-center border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
+							<div>
+								<h3 className='text-xl text-center font-bold'>Revive Players</h3>
+								<p className='text-center'>Enter player numbers in a comma-separated list.</p>
+							</div>
+							<Input
+								value={reviveInput}
+								onChange={e => setReviveInput(e.target.value)}
+							/>
+							<button
+								className='mt-4 px-4 py-2 rounded-sm bg-green-500 hover:bg-green-700 active:bg-green-700'
+								onClick={revivePlayers}
+							>
+								Revive
+							</button>
 						</div>
-					))}
-				</div>
+					</div>
 
-			</div>
+
+
+					{/* Show all living players */}
+					<div className='flex flex-col items-center w-full gap-2'>
+						<h3 className='text-2xl font-bold'>Living Players</h3>
+						<div className='grid grid-cols-3 lg:grid-cols-6 gap-4 w-full'>
+							{livingPlayers.map(person => (
+								<div
+									className='flex flex-col items-center justify-center border border-[#999999] bg-[#444444]/25 rounded-sm py-4'
+									key={person.id}>
+									<h3 className='text-3xl font-bold'>{person.playerNum}</h3>
+									<small className='text-[0.5rem]'>{person.id}</small>
+								</div>
+							))}
+						</div>
+					</div>
+
+					{/* Show all dead players */}
+					<div className='flex flex-col items-center w-full gap-2'>
+						<h3 className='text-2xl font-bold'>Dead Players</h3>
+						<div className='grid grid-cols-3 lg:grid-cols-6 gap-4 w-full'>
+							{deadPlayers.map(person => (
+								<div
+									className='flex flex-col items-center justify-center border border-[#cc9999] bg-[#884444]/25 rounded-sm py-4'
+									key={person.id}>
+									<h3 className='text-3xl font-bold'>{person.playerNum}</h3>
+									<small className='text-[0.5rem]'>{person.id}</small>
+								</div>
+							))}
+						</div>
+					</div>
+
+				</div>
+			</ThemeProvider>
 		</AuthProvider>
 	)
 }
