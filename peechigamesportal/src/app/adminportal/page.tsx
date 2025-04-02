@@ -186,6 +186,15 @@ function AdminPortal() {
 						</button>
 					</div> */}
 
+					<div className='w-full'>
+						<button
+	            className='px-4 py-2 rounded-sm bg-slate-600 hover:bg-slate-400 active:bg-slate-400'
+							onClick={() => {window.location.href = "/playercheckin";}}
+						>
+							Go to Player Check-In Page
+						</button>
+					</div>
+
 					{/* Eliminate and revive players */}
 					<div className='flex flex-col lg:flex-row gap-4 w-full'>
 						<div className='flex flex-col w-full items-center justify-center border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>

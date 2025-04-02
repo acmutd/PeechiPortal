@@ -55,8 +55,16 @@ function PlayerCheckIn() {
   return (
     <AuthProvider>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-        <div className='p-4 space-y-8'>
-          <h2 className='text-2xl font-bold'>
+        <div className='p-4 space-y-4'>
+
+          <button
+            className='px-4 py-2 rounded-sm bg-slate-600 hover:bg-slate-400 active:bg-slate-400'
+            onClick={() => { window.location.href = "/adminportal"; }}
+          >
+            Go to Player Elimination Page
+          </button>
+
+          <h2 className='text-2xl font-bold mt-8'>
             Check-In Players
           </h2>
           <div className=''>
