@@ -258,6 +258,7 @@ function AdminPortal() {
 								<div
 									className='flex flex-col items-center justify-center border border-[#cc9999] bg-[#884444]/25 rounded-sm py-4'
 									key={person.id}>
+									<small className='text-[0.5rem]'>{person.fname} {person.lname}</small>
 									<h3 className='text-3xl font-bold'>{person.playerNum}</h3>
 									<small className='text-[0.5rem]'>{person.id}</small>
 								</div>
