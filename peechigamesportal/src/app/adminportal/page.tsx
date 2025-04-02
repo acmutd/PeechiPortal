@@ -27,6 +27,7 @@ function AdminPortal() {
 		getRegistrants();
 	}, [])
 
+	// Used to get registrant/player data.  
 	const getRegistrants = async () => {
 		try {
 			// console.log("try")
@@ -42,7 +43,7 @@ function AdminPortal() {
 					fname: doc.data().firstName,
 					lname: doc.data().lastName,
 					isEliminated: doc.data().isEliminated
-				}) // CHANGE ID TO PLAYERNUMBER FOR ACTUAL GAME
+				})
 			})
 			setParticipantList(addPlayers);
 
@@ -55,36 +56,15 @@ function AdminPortal() {
 		}
 	}
 
-	async function setTestPlayers() {
-		for (let i = 1; i <= 50; i++) {
-			await setDoc(doc(db, "testParticipants", `testPlayer${i}`), {
-				playernumber: i,
-				firstName: `f_name${i}`,
-				lastName: `l_name${i}`,
-				isEliminated: false
-			});
-		}
-		console.log("Generated test players")
-	}
-
-	async function resetPlayers() {
-		for (let i = 1; i <= 50; i++) {
-			const playersToBeEliminatedRef = doc(db, "testParticipants", `testPlayer${i}`);
-			await updateDoc(playersToBeEliminatedRef, {
-				isEliminated: false
-			})
-		}
-		getRegistrants();
-	}
-
+	
 	async function elimPlayers() {
 		if (/^[\d,\s]+$/.test(elimInput)) { // If there are only numbers, commas, and/or whitespaces in the input
-
+			
 			// BASICALLY this needs to take the numbers we want to eliminate, find the id associated with them, and updated isEliminated for those id's in the db
 			const elimNums = elimInput.replaceAll(' ', '').split(',').map((element) => parseInt(element));
 			let elimIDs: string[] = [];
 			let successfullyElimed: number[] = [];
-
+			
 			// This literally runs in O(N^2) time, I am a horrible programmer
 			for (let i = 0; i < elimNums.length; i++) {
 				for (let j = 0; j < livingPlayers.length; j++) {
@@ -101,7 +81,7 @@ function AdminPortal() {
 			else {
 				window.confirm("Players " + successfullyElimed + " eliminated.")
 			}
-
+			
 			for (let i = 0; i < elimIDs.length; i++) {
 				const playersToBeEliminatedRef = doc(db, "testParticipants", elimIDs[i]);
 				await updateDoc(playersToBeEliminatedRef, {
@@ -109,7 +89,7 @@ function AdminPortal() {
 				})
 			}
 			getRegistrants();
-
+			
 		}
 		else if (elimInput === '') {
 			window.confirm("Please enter a value.")
@@ -118,7 +98,7 @@ function AdminPortal() {
 			window.confirm("Please enter only numbers and commas.")
 		}
 	}
-
+	
 	// This is basically elimPlayers copied but I don't think optimizing is worth my time here
 	async function revivePlayers() {
 		if (/^[\d,\s]+$/.test(reviveInput)) { // If there are only numbers, commas, and/or whitespaces in the input
@@ -126,9 +106,8 @@ function AdminPortal() {
 			const reviveNums = reviveInput.replaceAll(' ', '').split(',').map((element) => parseInt(element));
 			let reviveIDs: string[] = [];
 			let successfullyRevived: number[] = [];
-			console.log(reviveNums)
-
-			// This literally runs in O(N^2) time, I am a horrible programmer
+			// console.log(reviveNums)
+			
 			for (let i = 0; i < reviveNums.length; i++) {
 				for (let j = 0; j < deadPlayers.length; j++) {
 					if (deadPlayers[j].playerNum === reviveNums[i]) {
@@ -143,7 +122,7 @@ function AdminPortal() {
 			else {
 				window.confirm("Players " + successfullyRevived + " revived.")
 			}
-
+			
 			for (let i = 0; i < reviveIDs.length; i++) {
 				const playersToBeEliminatedRef = doc(db, "testParticipants", reviveIDs[i]);
 				await updateDoc(playersToBeEliminatedRef, {
@@ -151,7 +130,7 @@ function AdminPortal() {
 				})
 			}
 			getRegistrants();
-
+			
 		}
 		else if (reviveInput === '') {
 			window.confirm("Please enter a value.")
@@ -160,6 +139,30 @@ function AdminPortal() {
 			window.confirm("Please enter only numbers and commas.")
 		}
 	}
+	
+	/* Developer/debug functions */
+
+	// async function setTestPlayers() {
+	// 	for (let i = 1; i <= 50; i++) {
+	// 		await setDoc(doc(db, "testParticipants", `testPlayer${i}`), {
+	// 			playernumber: i,
+	// 			firstName: `f_name${i}`,
+	// 			lastName: `l_name${i}`,
+	// 			isEliminated: false
+	// 		});
+	// 	}
+	// 	console.log("Generated test players")
+	// }
+	// async function resetPlayers() {
+	// 	for (let i = 1; i <= 50; i++) {
+	// 		const playersToBeEliminatedRef = doc(db, "testParticipants", `testPlayer${i}`);
+	// 		await updateDoc(playersToBeEliminatedRef, {
+	// 			isEliminated: false
+	// 		})
+	// 	}
+	// 	getRegistrants();
+	// }
+
 
 	return (
 		<AuthProvider>
@@ -167,16 +170,17 @@ function AdminPortal() {
 
 				<div className='flex flex-col items-center p-4 gap-8'>
 
-					{/* Developer buttons */}
+					{/* Developer/debug buttons */}
 					{/* <div className='flex flex-row gap-4'>
-						<button onClick={() => setTestPlayers()} className='p-4 bg-amber-300 hover:bg-red-200'>
+						<button onClick={() => setTestPlayers()} className='p-4 bg-amber-800 hover:bg-red-700'>
 							generate test players
 						</button>
-						<button onClick={() => resetPlayers()} className='p-4 bg-amber-300 hover:bg-red-200'>
+
+						<button onClick={() => resetPlayers()} className='p-4 bg-amber-800 hover:bg-red-700'>
 							reset test players
 						</button>
 
-						<button onClick={() => getRegistrants()} className='p-4 bg-amber-300 hover:bg-red-200'>
+						<button onClick={() => getRegistrants()} className='p-4 bg-amber-800 hover:bg-red-700'>
 							Refresh
 						</button>
 					</div> */}
@@ -220,14 +224,15 @@ function AdminPortal() {
 
 
 
-					{/* Show all living players */}
+					{/* All living players */}
 					<div className='flex flex-col items-center w-full gap-2'>
-						<h3 className='text-2xl font-bold'>Living Players</h3>
+						<h2 className='text-2xl font-bold'>Living Players</h2>
 						<div className='grid grid-cols-3 lg:grid-cols-6 gap-4 w-full'>
 							{livingPlayers.map(person => (
 								<div
 									className='flex flex-col items-center justify-center border border-[#999999] bg-[#444444]/25 rounded-sm py-4'
 									key={person.id}>
+									<small className='text-[0.5rem]'>{person.fname} {person.lname}</small>
 									<h3 className='text-3xl font-bold'>{person.playerNum}</h3>
 									<small className='text-[0.5rem]'>{person.id}</small>
 								</div>
@@ -235,9 +240,9 @@ function AdminPortal() {
 						</div>
 					</div>
 
-					{/* Show all dead players */}
+					{/* All dead players */}
 					<div className='flex flex-col items-center w-full gap-2'>
-						<h3 className='text-2xl font-bold'>Dead Players</h3>
+						<h2 className='text-2xl font-bold'>Dead Players</h2>
 						<div className='grid grid-cols-3 lg:grid-cols-6 gap-4 w-full'>
 							{deadPlayers.map(person => (
 								<div
