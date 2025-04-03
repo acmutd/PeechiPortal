@@ -162,7 +162,7 @@ export default function Home() {
             <div className="flex flex-row mt-4 lg:ml-8">
               <Image src={number4} alt="Number 4" width={130} height={100} />
               <div className="flex mt-4 ml-2 text-2xl w-40 font-semibold justify-center items-center">
-                Head to UTD Multipurpose Field at 2:00 on April 4th
+                Head to UTD Activity Center at 2:00 on April 4th
               </div>
             </div>
 
