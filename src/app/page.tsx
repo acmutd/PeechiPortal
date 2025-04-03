@@ -73,7 +73,7 @@ export default function Home() {
 
         <div>
           <Image src={peechiGamesLogoText} alt="PeechiGamesLogo" width={565} height={278} className="mt-32" draggable="false" />
-          <h3 className="text-xl w-138 py-8">The Peechi Games are the first event of their kind in UT Dallas History. They are slated to be held at 2:00 PM on the 4th of April.</h3>
+          <h3 className="text-xl max-w-138 py-8">The Peechi Games are the first event of their kind in UT Dallas History. They are slated to be held at 2:00 PM on the 4th of April.</h3>
         </div>
 
         <div className="flex flex-row gap-4">
