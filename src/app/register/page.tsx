@@ -24,8 +24,9 @@ export default function RegisterPage() {
             <Image src={peechiGamesLogoText} alt="ACM Logo" height={40} />
           </Link>
           <div className="flex mr-4">
-            <Image src={profile} alt="PeechiProfile" width={40} height={40} className="mt-8"/>
-            <div className="w-0 h-0 border-l-8 border-r-8 border-t-16 border-transparent border-t-white mt-12 ml-4"/>
+            <Link href="/" draggable="false" >
+              <Image src={profile} alt="PeechiProfile" width={40} height={40} className="mt-8 object-contain" />
+            </Link>
           </div>
         </div>
 
@@ -37,9 +38,14 @@ export default function RegisterPage() {
         <Image src={rightart} alt="Decorative right art" width={130} height={400} />
       </div>
       <Card className="w-full max-w-2xl mx-auto mt-16">
-        <CardHeader>
-          <CardTitle><strong>Would You Like to Play?</strong></CardTitle>
-          <CardDescription>Multipurpose Field. 04/04. 2:00 PM. Arrive Early.</CardDescription>
+        <CardHeader className="space-y-4">
+          <CardTitle className="text-3xl font-bold text-center"><strong>Would You Like to Play?</strong></CardTitle>
+          <CardDescription className="text-xl text-center space-y-2">
+            <p className="font-semibold">📍 Main Gym (AB 1.2) @ Activity Center</p>
+            <p className="font-semibold">📅 April 4th, 2024</p>
+            <p className="font-semibold">⏰ 2:00 PM</p>
+            <p className="text-sm mt-2">Arrive Early to Secure Your Spot!</p>
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <SignUpForm />

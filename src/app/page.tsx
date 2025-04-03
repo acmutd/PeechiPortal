@@ -48,7 +48,7 @@ export default function Home() {
   };
 
   const faqs = [
-    { question: "Where and when will it be?", answer: "The event will be at the multipurpose field and starts at 2:00pm." },
+    { question: "Where and when will it be?", answer: "The event will be at the main gym (AB 1.2) in the activity center and starts at 2:00pm." },
     { question: "How much is the prize?", answer: "The prize pool will be a dollar per participant. If 300 people play, pool would be $300.00. There is no entry fee to participate." },
     { question: "Who is hosting the event?", answer: "The event is hosted by the Association of Computing Machinery (ACM) at UTD." }
   ]
@@ -66,19 +66,28 @@ export default function Home() {
             <Image src={acmPinkLogo} alt="ACM Logo" height={40} draggable="false" />
           </Link>
           <div className="flex">
-            <Image src={profile} alt="PeechiProfile" width={40} height={40} className="mt-8" draggable="false" />
-            <div className="w-0 h-0 border-l-8 border-r-8 border-t-16 border-transparent border-t-white mt-12 ml-4" />
+            <Link href="/register" draggable="false" >
+              <Image src={profile} alt="PeechiProfile" width={40} height={40} className="mt-8" draggable="false" />
+            </Link>
           </div>
         </div>
 
         <div>
           <Image src={peechiGamesLogoText} alt="PeechiGamesLogo" width={565} height={278} className="mt-32" draggable="false" />
-          <h3 className="text-xl max-w-138 py-8">The Peechi Games are the first event of their kind in UT Dallas History. They are slated to be held at 2:00 PM on the 4th of April.</h3>
+
+            <h3 className="text-2xl font-bold text mb-4 pt-8">Event Details</h3>
+            <div className="text-xl space-y-2 pb-8">
+              <p className="font-semibold">📍 Main Gym (AB 1.2) @ Activity Center</p>
+              <p className="font-semibold">📅 April 4th, 2024</p>
+              <p className="font-semibold">⏰ 2:00 PM</p>
+            </div>
+
+          
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
           <Link href="/register" draggable="false" >
-            <div className="transition-transform duration-300 ease-in-out hover:scale-105 rounded-sm bg-[#E84784] flex justify-center items-center p-4 w-28 h-10">
+            <div className="transition-transform duration-300 ease-in-out hover:scale-105 rounded-sm bg-[#E84784] flex justify-center items-center p-4 w-28 h-10 animate-pulse">
               <div className="w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-10 border-l-white pl-2" />
               <h3>Register</h3>
             </div>
