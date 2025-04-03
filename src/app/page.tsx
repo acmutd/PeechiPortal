@@ -42,7 +42,7 @@ import number3Photo from '@/public/cgi/number3Photo.png'
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-  
+
   const toggleFAQ = (index : number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -91,40 +91,40 @@ export default function Home() {
         </Link>
 
         </div>
-      
+
         <div className="pt-8">
           <h3 className="text-l font-semibold">What are the Games?</h3>
-          <div className="flex flex-row space-x-4 pt-4">
-            <div 
-              className="flex flex-col bg-black h-44 w-1/4 justify-center"
+          <div className="flex flex-col lg:flex-row space-y-4 lg:space-x-4 pt-4">
+            <div
+              className="flex flex-col bg-black h-44 lg:w-1/4 justify-center rounded-xl"
               style={{ backgroundImage: `url(${photo1.src})`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              <h3 className="w-60 font-semibold text-xl px-4">A Competition of Games</h3>
+              <h3 className="w-80 font-semibold text-xl px-4 break-words text-balance">A Competition of Games</h3>
             </div>
 
-            <div 
-              className="flex flex-col bg-black h-44 w-1/4 justify-center"
+            <div
+              className="flex flex-col bg-black h-44 lg:w-1/4 justify-center rounded-xl"
               style={{ backgroundImage: `url(${photo2.src})`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              <h3 className="w-80 font-semibold text-xl px-4">Opportunity for One Winner to Win a Cash Prize</h3>
+              <h3 className="w-80 font-semibold text-xl px-4 break-words text-balance">Opportunity for One Winner to Win a Cash Prize</h3>
             </div>
 
-            <div 
-              className="flex flex-col bg-black h-44 w-1/4 justify-center"
+            <div
+              className="flex flex-col bg-black h-44 lg:w-1/4 justify-center rounded-xl"
               style={{ backgroundImage: `url(${photo3.src})`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              <h3 className="w-80 font-semibold text-xl px-4">Cash prize amount = A dollar per participant (300 people = $300) </h3>
+              <h3 className="w-96 font-semibold text-xl px-4">Cash prize amount<br />$1 per participant<br />(300 people = $300)</h3>
             </div>
 
-            <div 
-              className="flex flex-col bg-black h-44 w-1/4 justify-center"
+            <div
+              className="flex flex-col bg-black h-44 lg:w-1/4 justify-center rounded-xl"
               style={{ backgroundImage: `url(${photo4.src})`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
               <h3 className="w-60 font-semibold text-xl px-4">Come to play or come to watch!</h3>
             </div>
           </div>
         </div>
-        
+
         <div className="pt-8">
           <h3 className="text-l font-semibold">How do I join?</h3>
           <div className="flex flex-row">
@@ -158,13 +158,13 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
         <div className="pt-8">
           <h3 className="text-l font-semibold pb-4">FAQ</h3>
           <div className="px">
             {faqs.map((faq, index) => (
               <div key={index} className="mb-4">
-                <div 
+                <div
                   className="bg-white/20 w-full flex p-4 flex-row font-semibold justify-between cursor-pointer"
                   onClick={() => toggleFAQ(index)}
                 >
@@ -178,7 +178,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        
+
 
         <div className="border-gray-700 border-t-2 mt-16 flex justify-center py-8" >
           <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" className="mx-8" draggable="false" >
