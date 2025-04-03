@@ -76,7 +76,7 @@ export default function Home() {
           <h3 className="text-xl max-w-138 py-8">The Peechi Games are the first event of their kind in UT Dallas History. They are slated to be held at 2:00 PM on the 4th of April.</h3>
         </div>
 
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <Link href="/register" draggable="false" ><div className="rounded-sm  bg-[#E84784] flex justify-center items-center p-4 w-28 h-10" >
             <div className="w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-10 border-l-white pl-2" />
             <h3>Register</h3>
