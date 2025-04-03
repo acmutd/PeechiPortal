@@ -13,7 +13,7 @@ import landercardback from '@/public/cgi/landercardback.png';
 import logofull from '@/public/cgi/logofull.png';
 import landerfoot from '@/public/cgi/landerfoot.png';
 import Link from 'next/link';
-import {SetStateAction, useState} from 'react';
+import { SetStateAction, useState } from 'react';
 
 import backgroundImage from '@/public/cgi/bg.png';
 import peechiGamesLogoText from '@/public/cgi/peechiGamesLogo.png';
@@ -43,7 +43,7 @@ import number3Photo from '@/public/cgi/number3Photo.png'
 export default function Home() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
-  const toggleFAQ = (index : number) => {
+  const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
@@ -56,18 +56,18 @@ export default function Home() {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
       <div
-      className="h-screen bg-cover bg-no-repeat bg-center px-8"
-      style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), black), url(${backgroundImage.src})`, backgroundPosition: 'center top'
-      }}
-    >
+        className="h-screen bg-cover bg-no-repeat bg-center px-8"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), black), url(${backgroundImage.src})`, backgroundPosition: 'center top'
+        }}
+      >
         <div className="flex flex-row justify-between">
           <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" className="mx-8 mt-8" draggable="false">
-            <Image src={acmPinkLogo} alt="ACM Logo" height={40} draggable="false"/>
+            <Image src={acmPinkLogo} alt="ACM Logo" height={40} draggable="false" />
           </Link>
           <div className="flex">
             <Image src={profile} alt="PeechiProfile" width={40} height={40} className="mt-8" draggable="false" />
-            <div className="w-0 h-0 border-l-8 border-r-8 border-t-16 border-transparent border-t-white mt-12 ml-4"/>
+            <div className="w-0 h-0 border-l-8 border-r-8 border-t-16 border-transparent border-t-white mt-12 ml-4" />
           </div>
         </div>
 
@@ -77,18 +77,18 @@ export default function Home() {
         </div>
 
         <div className="flex flex-row gap-4">
-        <Link href="/register" draggable="false" ><div className="rounded-sm  bg-[#E84784] flex justify-center items-center p-4 w-28 h-10" >
-          <div className="w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-10 border-l-white pl-2"/>
-          <h3>Register</h3>
-        </div>
-        </Link>
-
-        <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" draggable="false" >
-          <div className="rounded-sm  bg-white/30 bg-opacity-30 flex justify-center items-center p-2 w-55 h-10">
-            <Image src={infoLogo} alt="Info Logo" height={20} className="mr-1"/>
-            <h3>Learn more about ACM</h3>
+          <Link href="/register" draggable="false" ><div className="rounded-sm  bg-[#E84784] flex justify-center items-center p-4 w-28 h-10" >
+            <div className="w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-10 border-l-white pl-2" />
+            <h3>Register</h3>
           </div>
-        </Link>
+          </Link>
+
+          <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" draggable="false" >
+            <div className="rounded-sm  bg-white/30 bg-opacity-30 flex justify-center items-center p-2 w-55 h-10">
+              <Image src={infoLogo} alt="Info Logo" height={20} className="mr-1" />
+              <h3>Learn more about ACM</h3>
+            </div>
+          </Link>
 
         </div>
 
@@ -126,36 +126,36 @@ export default function Home() {
         </div>
 
         <div className="pt-8">
-          <h3 className="text-l font-semibold">How do I join?</h3>
-          <div className="flex flex-row">
-            <div className="flex flex-row mt-4">
-              <Image  src={number1} alt="Number 1" width={71} height={100}/>
-              <div className="h-38 w-40 bg-white/20 -ml-4 flex justify-center" style={{ backgroundImage: `url(${number1Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+          <h3 className="text-xl font-semibold">How do I join?</h3>
+          <div className="flex flex-col md:flex-row">
+            <div className="flex flex-row mt-4 ml-2">
+              <Image src={number1} alt="Number 1" width={71} height={100} />
+              <div className="h-38 w-40 bg-white/20 flex justify-center max-md:ml-12 md:ml-2 rounded-xl" style={{ backgroundImage: `url(${number1Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                 <Link href="/register" className="bg-[#E84784] w-3/4 h-8 flex justify-center items-center rounded-2xl font-semibold place-self-end mb-4">Register</Link>
               </div>
             </div>
 
-            <div className="flex flex-row mt-4 ml-8">
-              <Image  src={number2} alt="Number 1" width={115} height={100}/>
-              <div className="h-38 w-40 bg-white/20 -ml-4 flex justify-center" style={{ backgroundImage: `url(${number2Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+            <div className="flex flex-row mt-4 md:ml-8">
+              <Image src={number2} alt="Number 1" width={115} height={100} />
+              <div className="h-38 w-40 bg-white/20 flex justify-center ml-2 rounded-xl" style={{ backgroundImage: `url(${number2Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                 <h1 className="text-3xl font-bold place-self-end mb-4">Share</h1>
               </div>
             </div>
 
-            <div className="flex flex-row mt-4 ml-8">
-              <Image  src={number3} alt="Number 1" width={120} height={100}/>
-              <div className="h-38 w-40 bg-white/20 -ml-4 flex justify-center" style={{ backgroundImage: `url(${number3Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+            <div className="flex flex-row mt-4 md:ml-8">
+              <Image src={number3} alt="Number 1" width={120} height={100} />
+              <div className="h-38 w-40 bg-white/20 flex justify-center ml-2 rounded-xl" style={{ backgroundImage: `url(${number3Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                 <h1 className="text-3xl font-bold place-self-end mb-4">Practice</h1>
               </div>
             </div>
 
-            <div className="flex flex-row mt-4 ml-8">
-              <Image  src={number4} alt="Number 1" width={130} height={100}/>
+            <div className="flex flex-row mt-4 -ml-2 md:ml-8">
+              <Image src={number4} alt="Number 1" width={130} height={100} />
+              <div className="flex flex-row mt-4 ml-2 text-2xl w-80 font-semibold justify-center items-center">
+                Head to UTD Multipurpose Field at 2:00 on April 4th
+              </div>
             </div>
 
-            <div className="flex flex-row mt-4 ml-8 text-2xl w-80 font-semibold justify-center items-center">
-              Head to UTD Multipurpose Field at 2:00 on April 4th
-            </div>
           </div>
         </div>
 
