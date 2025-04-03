@@ -127,31 +127,31 @@ export default function Home() {
 
         <div className="pt-8">
           <h3 className="text-xl font-semibold">How do I join?</h3>
-          <div className="flex flex-col md:flex-row">
+          <div className="flex flex-col lg:flex-row max-lg:items-center mt-4">
             <div className="flex flex-row mt-4 ml-2">
               <Image src={number1} alt="Number 1" width={71} height={100} />
-              <div className="h-38 w-40 bg-white/20 flex justify-center max-md:ml-12 md:ml-2 rounded-xl" style={{ backgroundImage: `url(${number1Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+              <div className="h-38 w-40 bg-white/20 flex justify-center max-lg:ml-12 lg:ml-2 rounded-xl" style={{ backgroundImage: `url(${number1Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                 <Link href="/register" className="bg-[#E84784] w-3/4 h-8 flex justify-center items-center rounded-2xl font-semibold place-self-end mb-4">Register</Link>
               </div>
             </div>
 
-            <div className="flex flex-row mt-4 md:ml-8">
-              <Image src={number2} alt="Number 1" width={115} height={100} />
+            <div className="flex flex-row mt-4 lg:ml-8">
+              <Image src={number2} alt="Number 2" width={115} height={100} />
               <div className="h-38 w-40 bg-white/20 flex justify-center ml-2 rounded-xl" style={{ backgroundImage: `url(${number2Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                 <h1 className="text-3xl font-bold place-self-end mb-4">Share</h1>
               </div>
             </div>
 
-            <div className="flex flex-row mt-4 md:ml-8">
-              <Image src={number3} alt="Number 1" width={120} height={100} />
+            <div className="flex flex-row mt-4 lg:ml-8">
+              <Image src={number3} alt="Number 3" width={120} height={100} />
               <div className="h-38 w-40 bg-white/20 flex justify-center ml-2 rounded-xl" style={{ backgroundImage: `url(${number3Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                 <h1 className="text-3xl font-bold place-self-end mb-4">Practice</h1>
               </div>
             </div>
 
-            <div className="flex flex-row mt-4 -ml-2 md:ml-8">
-              <Image src={number4} alt="Number 1" width={130} height={100} />
-              <div className="flex flex-row mt-4 ml-2 text-2xl w-80 font-semibold justify-center items-center">
+            <div className="flex flex-row mt-4 lg:ml-8">
+              <Image src={number4} alt="Number 4" width={130} height={100} />
+              <div className="flex mt-4 ml-2 text-2xl w-40 font-semibold justify-center items-center">
                 Head to UTD Multipurpose Field at 2:00 on April 4th
               </div>
             </div>
