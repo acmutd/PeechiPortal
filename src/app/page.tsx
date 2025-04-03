@@ -77,14 +77,15 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link href="/register" draggable="false" ><div className="rounded-sm  bg-[#E84784] flex justify-center items-center p-4 w-28 h-10" >
-            <div className="w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-10 border-l-white pl-2" />
-            <h3>Register</h3>
-          </div>
+          <Link href="/register" draggable="false" >
+            <div className="transition-transform duration-300 ease-in-out hover:scale-105 rounded-sm bg-[#E84784] flex justify-center items-center p-4 w-28 h-10">
+              <div className="w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-10 border-l-white pl-2" />
+              <h3>Register</h3>
+            </div>
           </Link>
 
           <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" draggable="false" >
-            <div className="rounded-sm  bg-white/30 bg-opacity-30 flex justify-center items-center p-2 w-55 h-10">
+            <div className="transition-transform duration-300 ease-in-out hover:scale-105 rounded-sm bg-white/30 bg-opacity-30 flex justify-center items-center p-2 w-55 h-10">
               <Image src={infoLogo} alt="Info Logo" height={20} className="mr-1" />
               <h3>Learn more about ACM</h3>
             </div>
@@ -131,21 +132,21 @@ export default function Home() {
             <div className="flex flex-row mt-4 ml-2">
               <Image src={number1} alt="Number 1" width={71} height={100} />
               <div className="h-38 w-40 bg-white/20 flex justify-center max-lg:ml-12 lg:ml-2 rounded-xl" style={{ backgroundImage: `url(${number1Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                <Link href="/register" className="bg-[#E84784] w-3/4 h-8 flex justify-center items-center rounded-2xl font-semibold place-self-end mb-4">Register</Link>
+                <Link href="/register" className="transition-transform duration-300 ease-in-out hover:scale-105 bg-[#E84784] text-2xl px-2 py-1 flex justify-center items-center rounded-sm font-semibold place-self-end mb-4">Register</Link>
               </div>
             </div>
 
             <div className="flex flex-row mt-4 lg:ml-8">
               <Image src={number2} alt="Number 2" width={115} height={100} />
               <div className="h-38 w-40 bg-white/20 flex justify-center ml-2 rounded-xl" style={{ backgroundImage: `url(${number2Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                <h1 className="text-3xl font-bold place-self-end mb-4">Share</h1>
+                <h1 className="text-2xl font-bold place-self-end mb-4 bg-white/60 p-1 rounded-sm text-black">Share</h1>
               </div>
             </div>
 
             <div className="flex flex-row mt-4 lg:ml-8">
               <Image src={number3} alt="Number 3" width={120} height={100} />
               <div className="h-38 w-40 bg-white/20 flex justify-center ml-2 rounded-xl" style={{ backgroundImage: `url(${number3Photo.src})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                <h1 className="text-3xl font-bold place-self-end mb-4">Practice</h1>
+                <h1 className="text-2xl font-bold place-self-end mb-4 bg-white/60 p-1 text-black rounded-sm">Practice</h1>
               </div>
             </div>
 
