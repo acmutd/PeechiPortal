@@ -165,15 +165,16 @@ export default function Home() {
             {faqs.map((faq, index) => (
               <div key={index} className="mb-4">
                 <div
-                  className="bg-white/20 w-full flex p-4 flex-row font-semibold justify-between cursor-pointer"
+                  className={`transition-all bg-white/20 w-full flex p-4 flex-row font-semibold justify-between cursor-pointer ${openIndex === index ? "rounded-t-xl" : "rounded-xl"}`}
                   onClick={() => toggleFAQ(index)}
                 >
                   {faq.question}
                   <Image src={openIndex === index ? minus : plus} alt="Toggle" width={29} height={29} />
                 </div>
-                {openIndex === index && (
-                  <div className="bg-white/20 p-4 border-gray-400 border-t-2">{faq.answer}</div>
-                )}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-40 p-4 border-t-2 border-gray-400 bg-white/20 rounded-b-xl" : "max-h-0"}`}>
+                  {openIndex === index && <p>{faq.answer}</p>}
+                </div>
               </div>
             ))}
           </div>
