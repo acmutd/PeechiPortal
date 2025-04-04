@@ -6,9 +6,10 @@ import { doc, setDoc, getDoc, getCountFromServer, collection, query, where, getD
 import { db } from '../../firebase';
 import { Input } from '@/components/ui/input';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Ambulance, Crosshair, UserCheck } from 'lucide-react';
+import { Ambulance, Crosshair, Home, UserCheck } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 type ParticipantInfo = {
   id: string,
@@ -222,19 +223,33 @@ function AdminPortal() {
             </button>
           </div> */}
 
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/admin/check-in">
-              <UserCheck className="h-4 w-4 mr-2" />
-              Go to Check-in
-            </Link>
-          </Button>
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4 w-full">
+            <div>
+              <h1 className="text-3xl font-bold">Peechi Games Elimination Tracker</h1>
+              <p className="text-muted-foreground">Track player eliminations and manage game progress</p>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/admin">
+                  <Home className="h-4 w-4 mr-2" />
+                  Admin Dashboard
+                </Link>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/admin/check-in">
+                  <UserCheck className="h-4 w-4 mr-2" />
+                  Check-In
+                </Link>
+              </Button>
+            </div>
+          </div>
 
           {/* Eliminate and revive players */}
           <div className='flex flex-col lg:flex-row gap-4 w-full'>
-            <div className='flex flex-col w-full items-center justify-center border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
+            <Card className='p-4 w-full'>
               <div>
                 <h3 className='text-xl text-center font-bold'>Eliminate Players</h3>
-                <p className='text-center' style={{fontSize: "0.75rem"}}>Enter player numbers in a comma-separated list.</p>
+                <p className='text-center' style={{ fontSize: "0.75rem" }}>Enter player numbers in a comma-separated list.</p>
               </div>
               <Input
                 value={elimInput}
@@ -244,14 +259,13 @@ function AdminPortal() {
                 <Crosshair className='w-[0.1rem] h-1' />
                 Eliminate
               </Button>
-            </div>
+            </Card>
 
 
-
-            <div className='flex flex-col w-full items-center justify-center border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
+            <Card className='p-4 w-full'>
               <div>
                 <h3 className='text-xl text-center font-bold'>Revive Players</h3>
-                <p className='text-center' style={{fontSize: "0.75rem"}}>Enter player numbers in a comma-separated list.</p>
+                <p className='text-center' style={{ fontSize: "0.75rem" }}>Enter player numbers in a comma-separated list.</p>
               </div>
               <Input
                 value={reviveInput}
@@ -261,14 +275,14 @@ function AdminPortal() {
                 <Ambulance />
                 Revive
               </Button>
-            </div>
+            </Card>
           </div>
 
           <div className='flex flex-col lg:flex-row w-full gap-4'>
-            <div className='flex flex-row items-center justify-between w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
-                <h3 className='text-lg text-center font-bold'>Current Round</h3>
-                <div className='flex flex-row items-center gap-4'>
-                  <h3 style={{ fontSize: "2rem" }} className='font-bold'>{currentRound}</h3>
+            <Card className='flex-row justify-between p-4 w-full items-center'>
+              <h3 className='text-lg text-center font-bold'>Current Round</h3>
+              <div className='flex flex-row items-center gap-4'>
+                <h3 style={{ fontSize: "2rem" }} className='font-bold'>{currentRound}</h3>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -285,23 +299,23 @@ function AdminPortal() {
                     +
                   </Button>
                 </div>
-                </div>
-            </div>
+              </div>
+            </Card>
             <div className='flex flex-row lg:contents gap-4'>
-              <div className='flex flex-col items-center w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4'>
+              <Card className='w-full p-4 items-center gap-2'>
                 <h3 className='text-md text-center font-bold'>Players Alive</h3>
                 <h3 style={{ fontSize: "2rem", color: "#00cc00" }} className='font-bold'>{livingPlayers.length}/{participantList.length}</h3>
-              </div>
-              <div className='flex flex-col items-center w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4'>
+              </Card>
+              <Card className='w-full p-4 items-center gap-2'>
                 <h3 className='text-md text-center font-bold'>Dead Players</h3>
                 <h3 style={{ fontSize: "2rem", color: "#cc0000" }} className='font-bold'>{deadPlayers.length}/{participantList.length}</h3>
-              </div>
+              </Card>
             </div>
           </div>
 
 
           {/* All living players */}
-          <div className='flex flex-col items-center w-full gap-2'>
+          <div className='flex flex-col items-center w-full gap-2 mt-8'>
             <h2 className='text-2xl font-bold'>Living Players</h2>
             <div
               style={{
@@ -311,22 +325,20 @@ function AdminPortal() {
                 gap: "0.5rem"
               }}>
               {livingPlayers.map(person => (
-                <div
-                  className='flex flex-col items-center justify-center border border-[#999999] bg-[#444444]/25 rounded-sm'
-                  key={person.id}>
-                  <div className='flex w-full items-center justify-center border-[#999999] p-2' style={{ borderBottomWidth: "1px", minHeight: "2.5rem" }}>
+                <Card className='items-center p-0 gap-0' key={person.id}>
+                  <div className='flex w-full items-center justify-center p-2' style={{ borderBottomWidth: "1px", minHeight: "2.5rem" }}>
                     <small style={{ fontSize: "0.5rem" }} className='px-3 text-center'>{person.fname} {person.lname}</small>
                   </div>
                   <div className='flex justify-center w-full py-4'>
                     <h3 style={{ fontSize: "2rem" }} className='font-bold'>{person.playerNum}</h3>
                   </div>
-                </div>
+                </Card>
               ))}
             </div>
           </div>
 
           {/* All dead players */}
-          <div className='flex flex-col items-center w-full gap-2'>
+          <div className='flex flex-col items-center w-full gap-2 mt-8'>
             <h2 className='text-2xl font-bold'>Dead Players</h2>
             <div className='grid grid-cols-3 lg:grid-cols-6 gap-4 w-full'
               style={{
@@ -336,17 +348,14 @@ function AdminPortal() {
                 gap: "0.5rem"
               }}>
               {deadPlayers.map(person => (
-                <div
-                  className='flex flex-col items-center justify-center border border-[#cc9999] bg-[#884444]/25 rounded-sm'
-                  style={{ backgroundColor: "rgba(136,68,68,0.25)", borderColor: "#994444" }}
-                  key={person.id}>
+                <Card className='items-center p-0 gap-0' style={{ backgroundColor: "rgba(136,68,68,0.25)", borderColor: "#994444" }} key={person.id}>
                   <div className='flex w-full items-center justify-center border-[#999999] p-2' style={{ borderBottomWidth: "1px", borderColor: "#994444", minHeight: "2.5rem" }}>
                     <small style={{ fontSize: "0.5rem" }} className='px-3 text-center'>{person.fname} {person.lname}</small>
                   </div>
                   <div className='flex justify-center w-full py-4'>
                     <h3 style={{ fontSize: "2rem" }} className='font-bold'>{person.playerNum}</h3>
                   </div>
-                </div>
+                </Card>
               ))}
             </div>
           </div>
