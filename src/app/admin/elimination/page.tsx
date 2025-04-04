@@ -265,33 +265,35 @@ function AdminPortal() {
           </div>
 
           <div className='flex flex-col lg:flex-row w-full gap-4'>
-            <div className='flex flex-col items-center w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
-              <h3 className='text-xl text-center font-bold'>Set Round</h3>
-              <h3 style={{ fontSize: "2rem" }} className='font-bold'>{currentRound}</h3>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setRoundNumber(currentRound - 1)}
-                >
-                  -
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setRoundNumber(currentRound + 1)}
-                >
-                  +
-                </Button>
-              </div>
+            <div className='flex flex-row items-center justify-between w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
+                <h3 className='text-lg text-center font-bold'>Current Round</h3>
+                <div className='flex flex-row items-center gap-4'>
+                  <h3 style={{ fontSize: "2rem" }} className='font-bold'>{currentRound}</h3>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setRoundNumber(currentRound - 1)}
+                  >
+                    -
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setRoundNumber(currentRound + 1)}
+                  >
+                    +
+                  </Button>
+                </div>
+                </div>
             </div>
             <div className='flex flex-row lg:contents gap-4'>
-              <div className='flex flex-col items-center w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
-                <h3 className='text-xl text-center font-bold'>Players Alive</h3>
+              <div className='flex flex-col items-center w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4'>
+                <h3 className='text-md text-center font-bold'>Players Alive</h3>
                 <h3 style={{ fontSize: "2rem", color: "#00cc00" }} className='font-bold'>{livingPlayers.length}/{participantList.length}</h3>
               </div>
-              <div className='flex flex-col items-center w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4 gap-4'>
-                <h3 className='text-xl text-center font-bold'>Dead Players</h3>
+              <div className='flex flex-col items-center w-full border border-[#999999] bg-[#444444]/25 rounded-sm p-4'>
+                <h3 className='text-md text-center font-bold'>Dead Players</h3>
                 <h3 style={{ fontSize: "2rem", color: "#cc0000" }} className='font-bold'>{deadPlayers.length}/{participantList.length}</h3>
               </div>
             </div>
