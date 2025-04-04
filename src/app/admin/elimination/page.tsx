@@ -37,7 +37,7 @@ function AdminPortal() {
   async function updateRegistrants() {
     try {
       const playersRef = collection(db, "participants");
-      const q = query(playersRef, where("playernumber", "!=", ""));
+      const q = query(playersRef, where("playernumber", "!=", null));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         getRegistrants(); // I really don't get why I have to update in this roundabout way but React gets mad if I don't so shoot 🤷‍♂️
       });
@@ -52,7 +52,7 @@ function AdminPortal() {
       let addPlayers: ParticipantInfo[] = [];
 
       const playersRef = collection(db, "participants");
-      const q = query(playersRef, where("playernumber", "!=", "")); // This query gets all players, but returns it sorted by the query field
+      const q = query(playersRef, where("playernumber", "!=", null)); // This query gets all players, but returns it sorted by the query field
       const qSnapshot = await getDocs(q);
       qSnapshot.forEach((doc) => {
         addPlayers.push({
@@ -319,6 +319,8 @@ function AdminPortal() {
           {/* All living players */}
           <div className='flex flex-col items-center w-full gap-2 mt-8'>
             <h2 className='text-2xl font-bold'>Living Players</h2>
+            {livingPlayers.length === 0 &&
+              <p style={{color: "#999999"}}>No living players</p>}
             <div
               style={{
                 display: "grid",
@@ -342,6 +344,8 @@ function AdminPortal() {
           {/* All dead players */}
           <div className='flex flex-col items-center w-full gap-2 mt-8'>
             <h2 className='text-2xl font-bold'>Dead Players</h2>
+            {deadPlayers.length === 0 &&
+              <p style={{color: "#999999"}}>No dead players</p>}
             <div className='grid grid-cols-3 lg:grid-cols-6 gap-4 w-full'
               style={{
                 display: "grid",
