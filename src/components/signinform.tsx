@@ -26,7 +26,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import app from "@/app/firebase"
+import { app } from "@/app/firebase"
+import { useRouter } from 'next/navigation';
 
 const auth = getAuth(app);
 
@@ -39,6 +40,7 @@ const formSchema = z.object({
 export function SignInForm(){
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -59,18 +61,19 @@ export function SignInForm(){
                 const user = userCredential.user;
                 console.log(user);
                 console.log("Signed in successfully");
-                window.confirm("Sign-in successful! You may now register users at /register !");
+                
+                // Redirect to admin page instead of showing a confirmation
+                router.push('/admin');
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 window.confirm("Sign-in failed. Please consult your director for login assistance.");
                 console.log(errorCode, errorMessage);
-                console.error
             });
         } catch (error) {
-            console.error("Error adding document: ", error);
-            setSubmitError("An error occurred while submitting the form. Please try again.");
+            console.error("Error during sign in: ", error);
+            setSubmitError("An error occurred while signing in. Please try again.");
         } finally {
             setIsSubmitting(false);
         }
@@ -78,7 +81,12 @@ export function SignInForm(){
 
     return (
         <Form { ... form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                {submitError && (
+                    <div className="bg-red-500/20 text-red-500 p-3 rounded-md text-sm">
+                        {submitError}
+                    </div>
+                )}
                 <FormField
                     control={form.control}
                     name="email"
@@ -99,13 +107,15 @@ export function SignInForm(){
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Input placeholder="" {...field} />
+                                <Input placeholder="" type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <Button type="submit"><strong>Sign In</strong></Button>
+                <Button type="submit" disabled={isSubmitting} className="w-full">
+                    {isSubmitting ? "Signing in..." : <strong>Sign In</strong>}
+                </Button>
             </form>
         </Form>
     )

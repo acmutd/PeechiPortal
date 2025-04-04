@@ -13,7 +13,7 @@ import landercardback from '@/public/cgi/landercardback.png';
 import logofull from '@/public/cgi/logofull.png';
 import landerfoot from '@/public/cgi/landerfoot.png';
 import Link from 'next/link';
-import { SetStateAction, useState } from 'react';
+import {SetStateAction, useState} from 'react';
 
 import backgroundImage from '@/public/cgi/bg.png';
 import peechiGamesLogoText from '@/public/cgi/peechiGamesLogo.png';
@@ -189,7 +189,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-
 
         <div className="border-gray-700 border-t-2 mt-16 flex justify-center py-8" >
           <Link href="https://acmutd.co" target="_blank" rel="noopener noreferrer" className="mx-8" draggable="false" >
