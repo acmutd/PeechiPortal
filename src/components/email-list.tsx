@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
-import app from "@/app/firebase";
+import { app } from "@/app/firebase";
 
 export function EmailList() {
     const [emails, setEmails] = useState<string[]>([]);
