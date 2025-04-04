@@ -6,7 +6,7 @@ import { SignInForm } from "@/components/signinform";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ThemeProvider } from "@/components/theme-provider";
 import loginimg from '@/public/cgi/login.png';
-import app from "@/app/firebase";
+import {app} from "@/app/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 

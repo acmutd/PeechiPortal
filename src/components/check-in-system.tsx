@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getFirestore, collection, query, getDocs, doc, runTransaction, onSnapshot, DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import app from "@/app/firebase";
+import { app } from "@/app/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
