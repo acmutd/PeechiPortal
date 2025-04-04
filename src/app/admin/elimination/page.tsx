@@ -36,8 +36,8 @@ function AdminPortal() {
 
   async function updateRegistrants() {
     try {
-      const playersRef = collection(db, "testParticipants");
-      const q = query(playersRef, where("playernumber", "!=", "")); // This query gets all players, but returns it sorted by the query field
+      const playersRef = collection(db, "participants");
+      const q = query(playersRef, where("playernumber", "!=", ""));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         getRegistrants(); // I really don't get why I have to update in this roundabout way but React gets mad if I don't so shoot 🤷‍♂️
       });
@@ -51,7 +51,7 @@ function AdminPortal() {
     try {
       let addPlayers: ParticipantInfo[] = [];
 
-      const playersRef = collection(db, "testParticipants");
+      const playersRef = collection(db, "participants");
       const q = query(playersRef, where("playernumber", "!=", "")); // This query gets all players, but returns it sorted by the query field
       const qSnapshot = await getDocs(q);
       qSnapshot.forEach((doc) => {
@@ -60,7 +60,7 @@ function AdminPortal() {
           playerNum: doc.data().playernumber,
           fname: doc.data().firstName,
           lname: doc.data().lastName,
-          isEliminated: doc.data().isEliminated,
+          isEliminated: doc.data().iseliminated,
           eliminatedRound: doc.data().eliminatedround
         })
       })
@@ -116,11 +116,12 @@ function AdminPortal() {
         window.confirm("Players " + successfullyElimed + " eliminated.")
       }
       setElimInput('');
-
+      
       for (let i = 0; i < elimIDs.length; i++) {
-        const playerToBeEliminatedRef = doc(db, "testParticipants", elimIDs[i]);
+        const playerToBeEliminatedRef = doc(db, "participants", elimIDs[i]);
         await updateDoc(playerToBeEliminatedRef, {
-          isEliminated: true
+          iseliminated: true,
+          eliminatedround: currentRound
         })
       }
       getRegistrants();
@@ -160,9 +161,10 @@ function AdminPortal() {
       setReviveInput('');
 
       for (let i = 0; i < reviveIDs.length; i++) {
-        const playerToBeRevivedRef = doc(db, "testParticipants", reviveIDs[i]);
+        const playerToBeRevivedRef = doc(db, "participants", reviveIDs[i]);
         await updateDoc(playerToBeRevivedRef, {
-          isEliminated: false
+          iseliminated: false,
+          eliminatedround: null
         })
       }
       getRegistrants();
@@ -185,7 +187,7 @@ function AdminPortal() {
   //       discordUsername: `discord${i}`,
   //       firstName: `f_name${i}`,
   //       lastName: `l_name${i}`,
-  //       isEliminated: false,
+  //       iseliminated: false,
   //       eliminatedround: 0
   //     });
   //   }
@@ -349,11 +351,14 @@ function AdminPortal() {
               }}>
               {deadPlayers.map(person => (
                 <Card className='items-center p-0 gap-0' style={{ backgroundColor: "rgba(136,68,68,0.25)", borderColor: "#994444" }} key={person.id}>
-                  <div className='flex w-full items-center justify-center border-[#999999] p-2' style={{ borderBottomWidth: "1px", borderColor: "#994444", minHeight: "2.5rem" }}>
+                  <div className='flex w-full items-center justify-center p-2' style={{ borderBottomWidth: "1px", borderColor: "#994444", minHeight: "2.5rem" }}>
                     <small style={{ fontSize: "0.5rem" }} className='px-3 text-center'>{person.fname} {person.lname}</small>
                   </div>
                   <div className='flex justify-center w-full py-4'>
                     <h3 style={{ fontSize: "2rem" }} className='font-bold'>{person.playerNum}</h3>
+                  </div>
+                  <div className='flex w-full items-center justify-center p-2' style={{ borderTopWidth: "1px", borderColor: "#994444", minHeight: "2.5rem" }}>
+                    <small style={{ fontSize: "0.5rem" }} className='px-3 text-center'>Eliminated:<br/>Round {person.eliminatedRound}</small>
                   </div>
                 </Card>
               ))}
