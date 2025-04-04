@@ -344,7 +344,7 @@ export function CheckInSystem() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Player #</TableHead>
+              <TableHead className="w-[100px] hidden md:table-cell">Player #</TableHead>
               <TableHead>Name</TableHead>
               <TableHead className="hidden md:table-cell">Email</TableHead>
               <TableHead className="hidden md:table-cell">School</TableHead>
@@ -362,7 +362,7 @@ export function CheckInSystem() {
               filteredParticipants.map((participant) => (
                 <TableRow key={participant.id} 
                   className={participant.isCheckedIn ? "bg-green-500/10" : ""}>
-                  <TableCell className="font-bold">
+                  <TableCell className="font-bold hidden md:table-cell">
                     {participant.playernumber || "-"}
                   </TableCell>
                   <TableCell>
