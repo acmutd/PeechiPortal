@@ -26,6 +26,13 @@ const sunday = localFont({
 })
 
 
+const gcmolecule = localFont({
+  src: '../../public/fonts/GCMoleculeDemo-Regular.woff2', 
+  variable: '--font-gcmolecule'
+})
+
+
+
 export const metadata: Metadata = {
   title: "Peechi Games",
   description: "Be a Part of ACM's Biggest Event Ever!",
@@ -39,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${moderna.variable} ${sunday.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} ${moderna.variable} ${sunday.variable} ${gcmolecule.variable} antialiased min-h-screen flex flex-col`}
       >
         <AnimationOverlay />
         <main className="flex-grow">
