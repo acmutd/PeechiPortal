@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 const moderna = localFont({
-  src: '../../public/fonts/MODERNA_.woff2', 
+  src: '../../public/fonts/MODERNA.woff2', 
   variable: '--font-moderna'
 })
 
