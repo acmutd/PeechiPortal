@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { ThemeProvider } from "@/components/theme-provider";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { UserCheck, UserX, FileSpreadsheet, Users } from "lucide-react";
+import { UserCheck, UserX, FileSpreadsheet } from "lucide-react";
 import { AuthProvider } from "@/context/AuthProvider";
 
 export default function AdminDashboard() {
@@ -88,31 +88,7 @@ export default function AdminDashboard() {
                 </Button>
               </CardFooter>
             </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-purple-500" />
-                  Participant Management
-                </CardTitle>
-                <CardDescription>
-                  View, add, and manage all participants
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Search, filter, and manage participants. Add or remove participants, check in, and handle eliminations.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Button asChild className="w-full">
-                  <Link href="/admin/participants">
-                    Manage Participants
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-
+            
           </div>
         </div>
       </ThemeProvider>
