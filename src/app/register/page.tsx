@@ -44,11 +44,11 @@ export default function RegisterPage() {
                 <Link href="https://www.linkedin.com/company/acmutd" target="_blank"><Image src={linkedinIcon} alt="LinkedIn" className="h-5 md:h-6 w-auto" /></Link>
                 <Link href="https://www.youtube.com/@acmutdallas4256" target="_blank"><Image src={youtubeIcon} alt="YouTube" className="h-5 md:h-6 w-auto" /></Link>
 
-                <Link href="/register">
+                {/* <Link href="/register">
                   <div className="border border-white md:border-2 bg-transparent px-2 md:px-3 py-1 md:py-2 rounded-lg flex items-center justify-center">
                     <span className="text-white uppercase text-[10px] md:text-[15px] font-sunday font-normal">REGISTER</span>
                   </div>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
@@ -94,14 +94,14 @@ export default function RegisterPage() {
                       />
                     </div>
 
-                    <div className="flex items-center gap-4 w-full border-b border-white pb-2">
+                    {/* <div className="flex items-center gap-4 w-full border-b border-white pb-2">
                       <Lock className="text-white w-6 h-6 opacity-70" />
                       <input 
                         type="password" 
                         placeholder="Password" 
                         className="bg-transparent border-none outline-none text-white w-full font-gcmolecule text-xl placeholder:text-white/40"
                       />
-                    </div>
+                    </div> */}
 
                   <button 
                     type="submit" 
@@ -115,7 +115,7 @@ export default function RegisterPage() {
                       rock, paper, scissors?
                     </p>     
 
-                    <div className="mt-8 mb-6">
+                    {/* <div className="mt-8 mb-6">
                       <p className="font-sunday text-white text-3xl uppercase tracking-wider mb-3">
                         LOOKING FOR OTHER EVENTS?
                       </p>                      
@@ -128,7 +128,7 @@ export default function RegisterPage() {
                         ))}
                       </div>
                     </div>
-
+ */}
                   </form>
                 </CardContent>
               </Card>

@@ -27,7 +27,7 @@ const LAYOUT = {
 export default function Home() {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-      <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
+      <div className="min-h-screen bg-black">
         
         {/* Marquee -> infinite scrolling thing */}
         <style jsx global>{`
@@ -49,7 +49,7 @@ export default function Home() {
 
         {/* PEECHI GAMES */}
         <div 
-          className="w-full h-screen snap-start relative z-30 flex flex-col"
+          className="w-full min-h-screen flex flex-col relative"
           style={{
             backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, black 90%), url(${backgroundImage.src})`,
             backgroundSize: 'cover', 
@@ -69,34 +69,75 @@ export default function Home() {
                 <Link href="https://www.linkedin.com/company/acmutd" target="_blank"><Image src={linkedinIcon} alt="LinkedIn" className="h-5 md:h-6 w-auto" /></Link>
                 <Link href="https://www.youtube.com/@acmutdallas4256" target="_blank"><Image src={youtubeIcon} alt="YouTube" className="h-5 md:h-6 w-auto" /></Link>
 
-                <Link href="/register">
+                {/* <Link href="/register">
                   <div className="border border-white md:border-2 bg-transparent px-2 md:px-3 py-1 md:py-2 rounded-lg flex items-center justify-center">
                     <span className="text-white uppercase text-[10px] md:text-[15px] font-sunday font-normal">REGISTER</span>
                   </div>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col items-center justify-end pb-[40vh] md:pb-[10vh]"> 
-            <h1 className="font-moderna text-[12vw] md:text-[160px] font-normal leading-none uppercase select-none text-transparent bg-clip-text bg-gradient-to-r from-[#FFE9E7] to-[#E84784] tracking-[0.05em]">
+          <div className="flex-1 flex flex-col items-center justify-end min-h-[calc(100vh-120px)] pb-[10vh] md:pb-[5vh]"> 
+            <h1 className="font-moderna text-[12vw] md:text-[160px] font-normal leading-none uppercase select-none text-transparent bg-clip-text bg-gradient-to-r from-[#FFE9E7] to-[#E84784] tracking-[0.05em] text-center">
               PEECHI GAMES
             </h1>
-
+            
             {/* Marquee */}
-            <div className={`w-full ${LAYOUT.maxWidth} mx-auto ${LAYOUT.paddingX} mt-2 md:mt-4`}>
+            {/* <div className={`w-full ${LAYOUT.maxWidth} mx-auto ${LAYOUT.paddingX} mt-2 md:mt-4`}>
+
+              <div className="w-full overflow-hidden">
+
+                <div className="marquee-track">
+
+                  {[0, 1].map((_, i) => (
+
+                    <div
+
+                      key={i}
+
+                      className="flex items-center gap-13 md:gap-20 lg:gap-24 px-13 font-sunday text-[18px] md:text-[28px] font-normal uppercase text-white leading-none">
+
+                      <span>April 17th</span>
+
+                      <span>7 pm to 9 pm</span>
+
+                      <span>Main Gym</span>
+
+                      <span>Activity Center</span>
+
+                      <Link href="/register">
+
+                        <span className="text-[#E84784] hover:opacity-80 transition-opacity">
+
+                          Register Now
+
+                        </span>
+
+                      </Link>
+
+                    </div>
+
+                  ))}
+
+                </div>
+
+              </div>
+
+            </div> */}
+
+            {/* Marquee ie carousel */}
+            <div className={`w-full ${LAYOUT.maxWidth} mx-auto ${LAYOUT.paddingX}`}>
               <div className="w-full overflow-hidden">
                 <div className="marquee-track">
                   {[0, 1].map((_, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-13 md:gap-20 lg:gap-24 px-13 font-sunday text-[18px] md:text-[28px] font-normal uppercase text-white leading-none">
+                    <div key={i} className="flex items-center gap-8 md:gap-13 lg:gap-20 px-8 md:px-13 font-sunday text-[16px] md:text-[28px] font-normal uppercase text-white leading-none">
                       <span>April 17th</span>
                       <span>7 pm to 9 pm</span>
                       <span>Main Gym</span>
                       <span>Activity Center</span>
                       <Link href="/register">
-                        <span className="text-[#E84784] hover:opacity-80 transition-opacity">
+                        <span className="text-[#E84784] text-[1em] md:text-[1.8em] drop-shadow-[0_0_10px_rgba(232,71,132,0.5)] hover:scale-110 transition-transform inline-block cursor-pointer">
                           Register Now
                         </span>
                       </Link>
@@ -105,12 +146,34 @@ export default function Home() {
                 </div>
               </div>
             </div>
+
+            {/* <Link href="/register" className="group relative mt-4 mb-2">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#FFE9E7] to-[#E84784] rounded-xl blur opacity-25"></div>
+              <button className="relative px-12 py-2 bg-black/40 backdrop-blur-md border border-white/20 rounded-xl leading-none flex items-center">
+                <span className="font-sunday text-2xl md:text-2xl text-white group-hover:text-[#E84784] transition-colors">
+                  REGISTER NOW
+                </span>
+              </button>
+            </Link> */}
+
+            {/* <div className="fixed bottom-8 right-8 z-50 hidden md:block">
+            <Link href="/register">
+              <div className="bg-[#E84784] hover:bg-[#FF96BE] text-white font-sunday px-8 py-4 rounded-full shadow-2xl transform hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-3">
+                <span className="text-2xl">REGISTER</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+              </div>
+            </Link>
+          </div> */}
+
+
+
+
           </div>
         </div>
 
         {/* Acm competition info */}
         <div 
-          className="relative w-full h-screen snap-start z-10 flex flex-col overflow-y-auto"
+          className="relative w-full min-h-screen flex flex-col"
           style={{
             backgroundImage: `linear-gradient(to bottom, black 0%, transparent 10%, transparent 90%, black 100%), url(${backgroundImageBottom.src})`,
             backgroundSize: 'cover',
@@ -118,7 +181,7 @@ export default function Home() {
             backgroundRepeat: 'no-repeat',
           }}
         >
-          <div className={`pt-[8vh] pb-10 ${LAYOUT.contentWidth} flex flex-col items-center flex-grow`}>
+          <div className={`pt-[5vh] md:pt-[5vh] pb-10 ${LAYOUT.contentWidth} flex flex-col items-center flex-grow`}>
             
             {/* Triangles */}
             <div className="relative w-full">
@@ -145,7 +208,7 @@ export default function Home() {
                   </div>
                   <div className="flex flex-col items-center leading-tight">
                     <span className="text-[#E84784] text-[60px] md:text-[80px] flex items-center justify-center">
-                      <span className="mr-1">$</span>300
+                      <span className="mr-1">$</span>200
                     </span>
                     <span className="text-[#E84784] text-[60px] md:text-[80px] mt-[-15px]">prize</span>
                   </div>
