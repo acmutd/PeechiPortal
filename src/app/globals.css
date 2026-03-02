@@ -73,7 +73,7 @@
 
 :root {
   --radius: 0.625rem;
-  --admin-card-bg: rgba(35, 35, 35, 0.92);
+  --admin-card-bg: rgba(20, 20, 20, 0.92);
   --admin-input-bg: #1a1a1a;
   --admin-input-border: #3a3a3a;
   --background: oklch(1 0 0);
