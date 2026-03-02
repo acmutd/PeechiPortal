@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
   collection, addDoc, doc, updateDoc, onSnapshot,
-  query, runTransaction, getDocs, getFirestore,
+  query, where, runTransaction, getDocs, getFirestore,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { app } from '@/app/firebase';
@@ -44,15 +44,12 @@ type SortField = 'firstName' | 'lastName';
 type SortDir = 'asc' | 'desc';
 type EliminatedFilter = 'all' | 'active' | 'eliminated';
 type YearFilter = 'All' | 'Freshman' | 'Sophomore' | 'Junior' | 'Senior' | 'Graduate';
+type CheckInFilter = 'pending' | 'checkedin' | 'all';
 
 const YEAR_OPTIONS: YearFilter[] = ['All', 'Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
 
 const inputCls = `h-14 pl-12 bg-[${INPUT_BG}] border-[${INPUT_BORDER}] text-white placeholder:text-white/40 rounded-lg focus-visible:ring-0 focus-visible:border-[#E84784]`;
 const selectTriggerCls = `h-14 pl-12 bg-[${INPUT_BG}] border-[${INPUT_BORDER}] text-white rounded-lg focus:ring-0`;
-
-// ─────────────────────────────────────────────
-// ADD USER TAB
-// ─────────────────────────────────────────────
 
 function AddUserTab() {
   const [firstName, setFirstName] = useState('');
@@ -73,6 +70,12 @@ function AddUserTab() {
     setError(null);
     try {
       const displayName = `${firstName.trim()} ${lastName.trim()}`;
+      const existing = await getDocs(query(collection(db, 'participants'), where('email', '==', email.trim())));
+      if (!existing.empty) {
+        setError('A participant with that email already exists.');
+        setSubmitting(false);
+        return;
+      }
       await addDoc(collection(db, 'participants'), {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
@@ -102,7 +105,7 @@ function AddUserTab() {
 
   return (
     <div className="h-full flex flex-col px-8 pb-6">
-      <form onSubmit={handleAdd} className="space-y-3 pt-6">
+      <form onSubmit={handleAdd} className="space-y-5 pt-6">
         <div className="grid grid-cols-2 gap-3">
           <div className="relative">
             <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
@@ -169,18 +172,17 @@ function AddUserTab() {
   );
 }
 
-// ─────────────────────────────────────────────
-// CHECK IN TAB
-// ─────────────────────────────────────────────
-
 function CheckInTab({ participants }: { participants: Participant[] }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [checkInFilter, setCheckInFilter] = useState<CheckInFilter>('pending');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [updating, setUpdating] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const filtered = participants.filter((p) => {
+    if (checkInFilter === 'pending' && p.isCheckedIn) return false;
+    if (checkInFilter === 'checkedin' && !p.isCheckedIn) return false;
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase();
     return (
@@ -238,8 +240,7 @@ function CheckInTab({ participants }: { participants: Participant[] }) {
 
   return (
     <div className="h-full flex flex-col min-h-0 px-8">
-      {/* Search */}
-      <div className="pt-3 pb-3 flex-shrink-0 space-y-2">
+      <div className="pt-6 pb-3 flex-shrink-0 space-y-3">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
           <Input
@@ -249,19 +250,32 @@ function CheckInTab({ participants }: { participants: Participant[] }) {
             className={inputCls}
           />
         </div>
+        <div className="flex rounded overflow-hidden border border-white/10 w-fit">
+          {([['pending', 'Pending'], ['checkedin', 'Checked In'], ['all', 'All']] as [CheckInFilter, string][]).map(([f, label]) => (
+            <button
+              key={f}
+              onClick={() => { setCheckInFilter(f); setSelectedId(null); }}
+              className={cn(
+                'px-3 py-1 text-xs font-medium transition-colors h-7',
+                checkInFilter === f ? 'bg-[#E84784] text-white' : 'bg-white/5 text-white/50 hover:text-white'
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         {error && <p className="text-red-400 text-xs">{error}</p>}
         {success && <p className="text-green-400 text-xs">{success}</p>}
       </div>
 
-      {/* Table — scrollable */}
-      <div className="flex-1 overflow-y-auto min-h-0">
-        <table className="w-full text-sm">
-          <thead className="sticky top-0" style={{ backgroundColor: CARD_BG }}>
+      <div className="flex-1 overflow-y-auto min-h-0 admin-table-scroll pb-2">
+        <table className="table-fixed w-full text-sm">
+          <thead className="sticky top-0">
             <tr>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4">First Name</th>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4">Last Name</th>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4">Email Address</th>
-              <th className="text-right text-xs text-white/50 font-medium pb-3">Year</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pl-3 pr-4 w-[22%]" style={{ backgroundColor: CARD_BG }}>First Name</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4 w-[22%]" style={{ backgroundColor: CARD_BG }}>Last Name</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4 w-[40%]" style={{ backgroundColor: CARD_BG }}>Email Address</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 w-[16%]" style={{ backgroundColor: CARD_BG }}>Year</th>
             </tr>
           </thead>
           <tbody>
@@ -276,17 +290,13 @@ function CheckInTab({ participants }: { participants: Participant[] }) {
                   onClick={() => setSelectedId(p.id === selectedId ? null : p.id)}
                   className={cn(
                     'border-t border-white/10 cursor-pointer transition-colors',
-                    p.id === selectedId
-                      ? 'bg-[#E84784]/15'
-                      : p.isCheckedIn
-                        ? 'opacity-50 hover:opacity-70'
-                        : 'hover:bg-white/5'
+                    p.id === selectedId ? 'bg-[#E84784]/15' : 'hover:bg-white/5'
                   )}
                 >
-                  <td className="py-3 pr-4 text-white">{p.firstName}</td>
-                  <td className="py-3 pr-4 text-white">{p.lastName}</td>
-                  <td className="py-3 pr-4 text-white">{p.email}</td>
-                  <td className="py-3 text-white text-right">{p.classification}</td>
+                  <td className="py-3.5 pl-3 pr-4 text-white truncate">{p.firstName}</td>
+                  <td className="py-3.5 pr-4 text-white truncate">{p.lastName}</td>
+                  <td className="py-3.5 pr-4 text-white/70 truncate">{p.email}</td>
+                  <td className="py-3.5 text-white/70 truncate">{p.classification}</td>
                 </tr>
               ))
             )}
@@ -294,12 +304,11 @@ function CheckInTab({ participants }: { participants: Participant[] }) {
         </table>
       </div>
 
-      {/* CHECK IN button — fixed at bottom */}
-      <div className="py-5 flex-shrink-0">
+      <div className="pt-3 pb-5 flex-shrink-0">
         <Button
           onClick={() => selectedId && handleCheckIn(selectedId)}
           disabled={!selectedId || !!updating}
-          className="w-full h-14 bg-[#E84784] hover:bg-[#E84784]/90 text-white font-bold uppercase tracking-widest text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-10 bg-[#E84784] hover:bg-[#E84784]/90 text-white font-sunday uppercase tracking-widest text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {updating
             ? 'Processing...'
@@ -312,10 +321,6 @@ function CheckInTab({ participants }: { participants: Participant[] }) {
     </div>
   );
 }
-
-// ─────────────────────────────────────────────
-// ELIMINATE TAB
-// ─────────────────────────────────────────────
 
 function EliminateTab({ participants }: { participants: Participant[] }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -340,6 +345,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
 
   const filtered = participants
     .filter((p) => {
+      if (!p.isCheckedIn) return false;
       if (yearFilter !== 'All' && p.classification !== yearFilter) return false;
       if (eliminatedFilter === 'active' && p.iseliminated) return false;
       if (eliminatedFilter === 'eliminated' && !p.iseliminated) return false;
@@ -360,8 +366,9 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
       return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
     });
 
-  const activeCount = participants.filter((p) => !p.iseliminated).length;
-  const eliminatedCount = participants.filter((p) => p.iseliminated).length;
+  const checkedIn = participants.filter((p) => p.isCheckedIn);
+  const activeCount = checkedIn.filter((p) => !p.iseliminated).length;
+  const eliminatedCount = checkedIn.filter((p) => p.iseliminated).length;
 
   const handleEliminate = async (participant: Participant) => {
     setUpdating(participant.id);
@@ -372,7 +379,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
         eliminatedround: currentRound,
         eliminatedAt: new Date(),
       });
-      setSuccess(`${participant.firstName} ${participant.lastName} eliminated (Round ${currentRound}).`);
+      setSuccess(`${participant.firstName} ${participant.lastName} eliminated.`);
       setSelectedId(null);
       setConfirmEliminate(null);
       setElimByNumInput('');
@@ -419,18 +426,15 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
 
   return (
     <div className="h-full flex flex-col min-h-0 px-8">
-      {/* Controls — fixed */}
-      <div className="pt-3 pb-2 flex-shrink-0 space-y-3">
-        {/* Stats */}
+      <div className="pt-6 pb-3 flex-shrink-0 space-y-3">
         <div className="flex gap-4 text-xs">
-          <span className="text-white/50">Total: <span className="text-white font-bold">{participants.length}</span></span>
+          <span className="text-white/50">Checked In: <span className="text-white font-bold">{checkedIn.length}</span></span>
           <span className="text-white/30">|</span>
           <span className="text-white/50">Active: <span className="text-green-400 font-bold">{activeCount}</span></span>
           <span className="text-white/30">|</span>
           <span className="text-white/50">Eliminated: <span className="text-red-400 font-bold">{eliminatedCount}</span></span>
         </div>
 
-        {/* Search */}
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
           <Input
@@ -441,7 +445,6 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
           />
         </div>
 
-        {/* Filters row */}
         <div className="flex flex-wrap gap-2 items-center">
           <Select value={yearFilter} onValueChange={(v) => setYearFilter(v as YearFilter)}>
             <SelectTrigger className="w-32 h-8 bg-white/5 border-white/10 text-white text-xs">
@@ -487,7 +490,6 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
           </div>
         </div>
 
-        {/* Eliminate by player # */}
         <div className="flex gap-2">
           <div className="relative flex-1">
             <Hash className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40 pointer-events-none" />
@@ -512,17 +514,16 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
         {success && <p className="text-green-400 text-xs">{success}</p>}
       </div>
 
-      {/* Table — scrollable */}
-      <div className="flex-1 overflow-y-auto min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 admin-table-scroll pb-2">
         <table className="w-full text-sm">
-          <thead className="sticky top-0" style={{ backgroundColor: CARD_BG }}>
+          <thead className="sticky top-0">
             <tr>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4">First Name</th>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4">Last Name</th>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4">Email Address</th>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4">Year</th>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4">Status</th>
-              <th className="pb-3" />
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pl-3 pr-4" style={{ backgroundColor: CARD_BG }}>First Name</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4" style={{ backgroundColor: CARD_BG }}>Last Name</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4" style={{ backgroundColor: CARD_BG }}>Email Address</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4" style={{ backgroundColor: CARD_BG }}>Year</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4" style={{ backgroundColor: CARD_BG }}>Status</th>
+              <th className="pb-3" style={{ backgroundColor: CARD_BG }} />
             </tr>
           </thead>
           <tbody>
@@ -541,7 +542,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
                     p.iseliminated && 'opacity-50'
                   )}
                 >
-                  <td className={cn('py-3 pr-4 text-white', p.iseliminated && 'line-through text-white/40')}>
+                  <td className={cn('py-3 pl-3 pr-4 text-white', p.iseliminated && 'line-through text-white/40')}>
                     {p.firstName}
                   </td>
                   <td className={cn('py-3 pr-4 text-white', p.iseliminated && 'line-through text-white/40')}>
@@ -590,7 +591,6 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
         </table>
       </div>
 
-      {/* Bottom padding */}
       <div className="pb-4 flex-shrink-0" />
 
       <AlertDialog
@@ -624,10 +624,6 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
     </div>
   );
 }
-
-// ─────────────────────────────────────────────
-// MAIN COMPONENT
-// ─────────────────────────────────────────────
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'adduser', label: 'Add User' },
@@ -692,15 +688,14 @@ function ParticipantManagementInner() {
       className="rounded-2xl overflow-hidden flex flex-col h-[620px]"
       style={{ backgroundColor: CARD_BG }}
     >
-      {/* Tab bar — centered */}
       <div className="flex justify-center pt-3 flex-shrink-0">
-        <div className="flex gap-6 border-b border-white px-3">
+        <div className="flex gap-4 border-b border-white px-3">
           {TABS.map(({ id, label }) => (
             <button
               key={id}
               onClick={() => switchTab(id)}
               className={cn(
-                'pb-3 font-sunday text-xs uppercase tracking-widest transition-colors',
+                'pb-3 font-sunday text-sm uppercase tracking-widest transition-colors',
                 activeTab === id
                   ? 'text-white'
                   : 'text-white/35 hover:text-white/70'
@@ -712,7 +707,6 @@ function ParticipantManagementInner() {
         </div>
       </div>
 
-      {/* Content area */}
       <div className="flex-1 min-h-0">
         {activeTab === 'adduser' && <AddUserTab />}
         {activeTab === 'checkin' && <CheckInTab participants={participants} />}
