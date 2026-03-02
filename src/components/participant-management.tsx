@@ -73,7 +73,6 @@ function AddUserTab() {
       const existing = await getDocs(query(collection(db, 'participants'), where('email', '==', email.trim())));
       if (!existing.empty) {
         setError('A participant with that email already exists.');
-        setSubmitting(false);
         return;
       }
       await addDoc(collection(db, 'participants'), {
