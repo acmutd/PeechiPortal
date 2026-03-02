@@ -118,7 +118,7 @@ function AddUserTab({ participants }: { participants: Participant[] }) {
   return (
     <div className="h-full flex flex-col min-h-0">
       {/* Form — fixed at top */}
-      <form onSubmit={handleAdd} className="px-8 pt-6 pb-4 space-y-3 flex-shrink-0">
+      <form onSubmit={handleAdd} className="px-8 pt-4 pb-4 space-y-3 flex-shrink-0">
         <div className="grid grid-cols-2 gap-3">
           <div className="relative">
             <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
@@ -323,7 +323,7 @@ function CheckInTab({ participants }: { participants: Participant[] }) {
   return (
     <div className="h-full flex flex-col min-h-0 px-8">
       {/* Search */}
-      <div className="pt-5 pb-4 flex-shrink-0 space-y-2">
+      <div className="pt-3 pb-3 flex-shrink-0 space-y-2">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
           <Input
@@ -504,7 +504,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
   return (
     <div className="h-full flex flex-col min-h-0 px-8">
       {/* Controls — fixed */}
-      <div className="pt-4 pb-3 flex-shrink-0 space-y-3">
+      <div className="pt-3 pb-2 flex-shrink-0 space-y-3">
         {/* Stats */}
         <div className="flex gap-4 text-xs">
           <span className="text-white/50">Total: <span className="text-white font-bold">{participants.length}</span></span>
@@ -777,21 +777,23 @@ function ParticipantManagementInner() {
       style={{ backgroundColor: CARD_BG }}
     >
       {/* Tab bar — centered */}
-      <div className="flex justify-center gap-10 pt-5 flex-shrink-0">
-        {TABS.map(({ id, label }) => (
-          <button
-            key={id}
-            onClick={() => switchTab(id)}
-            className={cn(
-              'pb-4 text-sm font-bold uppercase tracking-widest transition-colors border-b-2',
-              activeTab === id
-                ? 'text-white border-white'
-                : 'text-white/40 border-transparent hover:text-white/60'
-            )}
-          >
-            {label}
-          </button>
-        ))}
+      <div className="flex justify-center pt-3 flex-shrink-0">
+        <div className="flex gap-6 border-b border-white px-3">
+          {TABS.map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => switchTab(id)}
+              className={cn(
+                'pb-3 font-sunday text-xs uppercase tracking-widest transition-colors',
+                activeTab === id
+                  ? 'text-white'
+                  : 'text-white/35 hover:text-white/70'
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Content area */}
