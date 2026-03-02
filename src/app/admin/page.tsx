@@ -1,97 +1,88 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ParticipantManagement } from "@/components/participant-management";
 import { ThemeProvider } from "@/components/theme-provider";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { UserCheck, UserX, FileSpreadsheet } from "lucide-react";
 import { AuthProvider } from "@/context/AuthProvider";
+import Image from "next/image";
+import Link from "next/link";
+
+import backgroundImage from "@/public/cgi/bg.png";
+import acmWhiteLogo from "@/public/cgi/acm-white-logo.png";
+import instagramIcon from "@/public/cgi/logo_instagram.png";
+import linkedinIcon from "@/public/cgi/logo_linkedin.png";
+import youtubeIcon from "@/public/cgi/logo_youtube.png";
 
 export default function AdminDashboard() {
   return (
     <AuthProvider>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-        <div className="container mx-auto py-8 px-4">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold">Peechi Games Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage participants, track eliminations, and monitor game progress</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <UserCheck className="h-5 w-5 text-blue-500" />
-                  Check-in System
-                </CardTitle>
-                <CardDescription>
-                  Register participants on event day and assign player numbers
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Check in registered participants as they arrive at the event. Each participant will be assigned a sequential player number.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Button asChild className="w-full">
-                  <Link href="/admin/check-in">
-                    Open Check-in
+        <div className="relative min-h-screen w-full flex flex-col overflow-x-hidden bg-black">
+
+          {/* Background */}
+          <div
+            className="absolute inset-0 w-full h-full z-0"
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, black 100%), url(${backgroundImage.src})`,
+              backgroundSize: "cover",
+              backgroundPosition: "top center",
+              backgroundRepeat: "no-repeat",
+              backgroundAttachment: "fixed",
+            }}
+          />
+
+          {/* Content */}
+          <div className="relative z-10 flex flex-col min-h-screen">
+
+            {/* Header */}
+            <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
+              <div className="flex justify-between items-center pt-8 flex-shrink-0">
+                <Link href="https://acmutd.co" target="_blank">
+                  <Image src={acmWhiteLogo} alt="ACM Logo" className="h-5 md:h-7 w-auto" />
+                </Link>
+
+                <div className="flex items-center gap-2 md:gap-4">
+                  <Link href="https://www.instagram.com/acmutd/" target="_blank">
+                    <Image src={instagramIcon} alt="Instagram" className="h-5 md:h-6 w-auto" />
                   </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <UserX className="h-5 w-5 text-red-500" />
-                  Elimination Tracker
-                </CardTitle>
-                <CardDescription>
-                  Track eliminated players throughout the game
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Mark participants as eliminated, track elimination rounds, and see real-time statistics of remaining players.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Button asChild className="w-full">
-                  <Link href="/admin/elimination">
-                    Track Eliminations
+                  <Link href="https://www.linkedin.com/company/acmutd" target="_blank">
+                    <Image src={linkedinIcon} alt="LinkedIn" className="h-5 md:h-6 w-auto" />
                   </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileSpreadsheet className="h-5 w-5 text-green-500" />
-                  Email List
-                </CardTitle>
-                <CardDescription>
-                  View all registered participant emails
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Access a list of all registered participant emails for communication and record-keeping.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Button asChild className="w-full">
-                  <Link href="/admin/emails">
-                    View Emails
+                  <Link href="https://www.youtube.com/@acmutdallas4256" target="_blank">
+                    <Image src={youtubeIcon} alt="YouTube" className="h-5 md:h-6 w-auto" />
                   </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-            
+                </div>
+              </div>
+            </div>
+
+            {/* Main content */}
+            <main className="flex-1 flex items-start justify-center px-4 md:px-8 py-8">
+              <div className="w-full max-w-5xl">
+                <ParticipantManagement />
+              </div>
+            </main>
+
+            {/* Footer */}
+            <div className="w-full max-w-7xl mx-auto px-4 md:px-8 mt-auto">
+              <div className="w-full border-t border-white/20 pt-8 pb-12 flex flex-col md:flex-row gap-8 md:gap-0 justify-between items-center">
+                <Link href="https://acmutd.co" target="_blank">
+                  <Image src={acmWhiteLogo} alt="ACM Logo" className="h-6 md:h-7 w-auto" />
+                </Link>
+
+                <div className="flex items-center gap-6">
+                  <Link href="https://www.instagram.com/acmutd/" target="_blank">
+                    <Image src={instagramIcon} alt="Instagram" className="h-6 w-auto" />
+                  </Link>
+                  <Link href="https://www.linkedin.com/company/acmutd" target="_blank">
+                    <Image src={linkedinIcon} alt="LinkedIn" className="h-6 w-auto" />
+                  </Link>
+                  <Link href="https://www.youtube.com/@acmutdallas4256" target="_blank">
+                    <Image src={youtubeIcon} alt="YouTube" className="h-6 w-auto" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </ThemeProvider>
     </AuthProvider>
   );
-} 
+}
