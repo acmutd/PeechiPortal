@@ -23,9 +23,9 @@ import { cn } from '@/lib/utils';
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-const CARD_BG = '#3c3c3c';
-const INPUT_BG = '#2e2e2e';
-const INPUT_BORDER = '#555555';
+const CARD_BG = 'var(--admin-card-bg)';
+const INPUT_BG = 'var(--admin-input-bg)';
+const INPUT_BORDER = 'var(--admin-input-border)';
 
 type Participant = {
   id: string;
