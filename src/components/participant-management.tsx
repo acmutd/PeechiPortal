@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
-  collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot,
+  collection, addDoc, doc, updateDoc, onSnapshot,
   query, runTransaction, getDocs, getFirestore,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
@@ -17,7 +17,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Search, User, Mail, GraduationCap, Trash2, Skull, Heart, RefreshCw, Hash } from 'lucide-react';
+import { Search, User, Mail, GraduationCap, Skull, Heart, RefreshCw, Hash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const db = getFirestore(app);
@@ -54,7 +54,7 @@ const selectTriggerCls = `h-14 pl-12 bg-[${INPUT_BG}] border-[${INPUT_BORDER}] t
 // ADD USER TAB
 // ─────────────────────────────────────────────
 
-function AddUserTab({ participants }: { participants: Participant[] }) {
+function AddUserTab() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -62,8 +62,6 @@ function AddUserTab({ participants }: { participants: Participant[] }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [deleteTarget, setDeleteTarget] = useState<Participant | null>(null);
-  const [deleting, setDeleting] = useState<string | null>(null);
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,23 +100,9 @@ function AddUserTab({ participants }: { participants: Participant[] }) {
     }
   };
 
-  const handleDelete = async () => {
-    if (!deleteTarget) return;
-    setDeleting(deleteTarget.id);
-    try {
-      await deleteDoc(doc(db, 'participants', deleteTarget.id));
-      setDeleteTarget(null);
-    } catch {
-      setError('Failed to delete participant.');
-    } finally {
-      setDeleting(null);
-    }
-  };
-
   return (
-    <div className="h-full flex flex-col min-h-0">
-      {/* Form — fixed at top */}
-      <form onSubmit={handleAdd} className="px-8 pt-4 pb-4 space-y-3 flex-shrink-0">
+    <div className="h-full flex flex-col px-8 pb-6">
+      <form onSubmit={handleAdd} className="space-y-3 pt-6">
         <div className="grid grid-cols-2 gap-3">
           <div className="relative">
             <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
@@ -176,79 +160,11 @@ function AddUserTab({ participants }: { participants: Participant[] }) {
         <Button
           type="submit"
           disabled={submitting}
-          className="w-full h-14 bg-[#E84784] hover:bg-[#E84784]/90 text-white font-bold uppercase tracking-widest text-sm rounded-lg"
+          className="w-full h-10 bg-[#E84784] hover:bg-[#E84784]/90 text-white font-sunday uppercase tracking-widest text-sm rounded-lg"
         >
           {submitting ? 'Adding...' : 'Add User'}
         </Button>
       </form>
-
-      {/* Participant list — scrollable */}
-      <div className="flex-1 overflow-y-auto min-h-0 px-8 pb-4">
-        <p className="text-white/40 text-xs mb-3">
-          Total Participants: <span className="text-white font-bold">{participants.length}</span>
-        </p>
-        <table className="w-full text-sm">
-          <thead className="sticky top-0" style={{ backgroundColor: CARD_BG }}>
-            <tr>
-              {['First Name', 'Last Name', 'Email Address', 'Year', ''].map((h, i) => (
-                <th key={i} className="text-left text-xs text-white/50 font-medium pb-2">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {participants.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="py-6 text-center text-white/40 text-sm">No participants yet.</td>
-              </tr>
-            ) : (
-              participants
-                .slice()
-                .sort((a, b) => a.lastName.localeCompare(b.lastName))
-                .map((p) => (
-                  <tr key={p.id} className="border-t border-white/10 hover:bg-white/5 transition-colors">
-                    <td className="py-2.5 text-white">{p.firstName}</td>
-                    <td className="py-2.5 text-white">{p.lastName}</td>
-                    <td className="py-2.5 text-white/60">{p.email}</td>
-                    <td className="py-2.5 text-white/60">{p.classification}</td>
-                    <td className="py-2.5 text-right">
-                      <button
-                        onClick={() => setDeleteTarget(p)}
-                        className="p-1 rounded hover:bg-red-500/20 text-white/30 hover:text-red-400 transition-colors"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
-        <AlertDialogContent style={{ backgroundColor: '#2a2a2a', borderColor: '#555' }}>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">Delete Participant</AlertDialogTitle>
-            <AlertDialogDescription className="text-white/60">
-              Delete {deleteTarget?.firstName} {deleteTarget?.lastName}? This cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel style={{ backgroundColor: '#3c3c3c', borderColor: '#555', color: 'white' }}>
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-              disabled={!!deleting}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
-              {deleting ? 'Deleting...' : 'Delete'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }
@@ -798,7 +714,7 @@ function ParticipantManagementInner() {
 
       {/* Content area */}
       <div className="flex-1 min-h-0">
-        {activeTab === 'adduser' && <AddUserTab participants={participants} />}
+        {activeTab === 'adduser' && <AddUserTab />}
         {activeTab === 'checkin' && <CheckInTab participants={participants} />}
         {activeTab === 'eliminate' && <EliminateTab participants={participants} />}
       </div>
