@@ -79,7 +79,7 @@ export default function Home() {
           </div>
 
           <div className="flex-1 flex flex-col items-center justify-end min-h-[calc(100vh-120px)] pb-[10vh] md:pb-[5vh]"> 
-            <h1 className="font-moderna text-[12vw] md:text-[160px] font-normal leading-none uppercase select-none text-transparent bg-clip-text bg-gradient-to-r from-[#FFE9E7] to-[#E84784] tracking-[0.05em] text-center">
+            <h1 className="pt-4 font-moderna text-[12vw] md:text-[160px] font-normal leading-none uppercase select-none text-transparent bg-clip-text bg-gradient-to-r from-[#FFE9E7] to-[#E84784] tracking-[0.05em] text-center">
               PEECHI GAMES
             </h1>
             
