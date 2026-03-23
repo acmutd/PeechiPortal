@@ -6,10 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
+import { Mail, User, GraduationCap } from "lucide-react"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -20,24 +20,20 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {app} from "@/app/firebase"
 import {
     AlertDialog,
     AlertDialogAction,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
 const auth = getAuth(app);
@@ -79,7 +75,6 @@ export function SignUpForm(){
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [notLoggedInAlert, setNLIAlert] = useState(false)
-    const [formData, setFormData] = useState({})
 
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -137,15 +132,23 @@ export function SignUpForm(){
     return (
         <>
         <Form { ... form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                <div className="grid gap-5 md:grid-cols-2">
                 <FormField
                     control={form.control}
                     name="firstName"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>First Name</FormLabel>
+                            <FormLabel className="flex items-center gap-2 text-xl font-sunday text-white/70">
+                                <User className="h-4 w-4" />
+                                First Name
+                            </FormLabel>
                             <FormControl>
-                                <Input placeholder="Ahjussi" {...field} />
+                                <Input
+                                    placeholder="First Name"
+                                    {...field}
+                                    className="h-12 rounded-none border-x-0 border-t-0 border-b border-white/70 bg-transparent px-0 text-lg text-white placeholder:text-white/40 focus-visible:ring-0"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -156,55 +159,38 @@ export function SignUpForm(){
                     name="lastName"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Last Name</FormLabel>
+                            <FormLabel className="flex items-center gap-2 text-xl font-sunday text-white/70">
+                                <User className="h-4 w-4" />
+                                Last Name
+                            </FormLabel>
                             <FormControl>
-                                <Input placeholder="Peechi" {...field} />
+                                <Input
+                                    placeholder="Last Name"
+                                    {...field}
+                                    className="h-12 rounded-none border-x-0 border-t-0 border-b border-white/70 bg-transparent px-0 text-lg text-white placeholder:text-white/40 focus-visible:ring-0"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
+                </div>
                 <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email Address</FormLabel>
+                            <FormLabel className="flex items-center gap-2 text-xl font-sunday text-white/70">
+                                <Mail className="h-4 w-4" />
+                                Email Address
+                            </FormLabel>
                             <FormControl>
-                                <Input placeholder="Peechissi@utdallas.edu" {...field} />
+                                <Input
+                                    placeholder="Email Address"
+                                    {...field}
+                                    className="h-12 rounded-none border-x-0 border-t-0 border-b border-white/70 bg-transparent px-0 text-lg text-white placeholder:text-white/40 focus-visible:ring-0"
+                                />
                             </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="school"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>School of Study</FormLabel>
-                            <FormControl>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select your school of study" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectItem value="ECS">ECS</SelectItem>
-                                        <SelectItem value="JSOM">JSOM</SelectItem>
-                                        <SelectItem value="AHT">AHT</SelectItem>
-                                        <SelectItem value="NSM">NSM</SelectItem>
-                                        <SelectItem value="EPPS">EPPS</SelectItem>
-                                        <SelectItem value="IS">IS</SelectItem>
-                                        <SelectItem value="BBS">BBS</SelectItem>
-                                        <SelectItem value="unaffiliated">Unaffiliated</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                            </FormControl>
-                            <FormDescription>
-                                Your School of Study
-                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -214,54 +200,42 @@ export function SignUpForm(){
                     name="classification"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Class Year</FormLabel>
+                            <FormLabel className="flex items-center gap-2 text-xl font-sunday text-white/70">
+                                <GraduationCap className="h-4 w-4" />
+                                Class Year
+                            </FormLabel>
                             <FormControl>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <SelectTrigger>
+                                <SelectTrigger className="h-12 rounded-none border-x-0 border-t-0 border-b border-white/70 bg-transparent px-0 text-lg text-white data-[placeholder]:text-white/40 focus:ring-0">
                                     <SelectValue placeholder="Select your class year" />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="border-white/20 bg-black text-white">
                                     <SelectGroup>
-                                        <SelectItem value="Freshman">Freshman</SelectItem>
-                                        <SelectItem value="Sophomore">Sophomore</SelectItem>
-                                        <SelectItem value="Junior">Junior</SelectItem>
-                                        <SelectItem value="Senior">Senior</SelectItem>
-                                        <SelectItem value="Graduate">Graduate</SelectItem>
+                                        <SelectItem value="Freshman" className="focus:bg-white/10 focus:text-white">Freshman</SelectItem>
+                                        <SelectItem value="Sophomore" className="focus:bg-white/10 focus:text-white">Sophomore</SelectItem>
+                                        <SelectItem value="Junior" className="focus:bg-white/10 focus:text-white">Junior</SelectItem>
+                                        <SelectItem value="Senior" className="focus:bg-white/10 focus:text-white">Senior</SelectItem>
+                                        <SelectItem value="Graduate" className="focus:bg-white/10 focus:text-white">Graduate</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
                             </FormControl>
-                            <FormDescription>
-                                Classification by Year
-                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="optin"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                            <FormControl>
-                                <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                                <FormLabel>
-                                    Opt-in for Communications
-                                </FormLabel>
-                                <FormDescription>
-                                    I would like to receive communications from the ACM at UTD about future events like this!
-                                </FormDescription>
-                            </div>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button type="submit"><strong>I Will Be There.</strong></Button>
+
+                {submitError && (
+                    <p className="text-sm text-red-300">{submitError}</p>
+                )}
+
+                <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="mt-2 h-12 w-full rounded-xl border-0 bg-[#e84784] text-xl font-sunday uppercase tracking-wide text-white hover:bg-[#d43c76]"
+                >
+                    {isSubmitting ? "Registering..." : "Register"}
+                </Button>
             </form>
         </Form>
         <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
