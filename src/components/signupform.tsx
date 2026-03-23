@@ -120,6 +120,7 @@ export function SignUpForm(){
                 signup: new Date(),
                 iseliminated: false,
                 playernumber: null,
+                isCheckedIn: false,
             });
             console.log("Document written with ID: ", docRef.id);
             setIsAlertOpen(true)
