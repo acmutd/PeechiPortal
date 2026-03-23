@@ -61,7 +61,6 @@ const formSchema = z.object({
         .min(2, { message: "Last name must be at least 2 characters long" })
         .max(50, { message: "Last name must not exceed 50 characters" }),
     email: z.string().email({ message: "Invalid email address" }),
-    emailConfirmation: z.string().email({ message: "Invalid email address" }),
     discordUsername: z.string()
         .min(2, { message: "Discord username must be at least 2 characters long" })
         .max(50, { message: "Discord username must not exceed 50 characters" })
@@ -73,7 +72,7 @@ const formSchema = z.object({
         errorMap: () => ({ message: "Please select a valid class" })
     }),
     optin: z.boolean(),
-}).refine((data) => data.email === data.emailConfirmation, {message: "Email addresses do not match", path: ["emailConfirmation"], });
+});
 
 export function SignUpForm(){
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,7 +88,6 @@ export function SignUpForm(){
             firstName: "",
             lastName: "",
             email: "",
-            emailConfirmation: "",
             discordUsername: "n/a",
             school: "ECS",
             classification: "Freshman",
@@ -178,23 +176,6 @@ export function SignUpForm(){
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="emailConfirmation"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email Confirmation</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Peechissi@utdallas.edu" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                Confirm Your Email Address
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            
                 <FormField
                     control={form.control}
                     name="school"

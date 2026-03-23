@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Card, CardContent } from "@/components/ui/card";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SignUpForm } from "@/components/signupform";
+import { ArrowLeft } from "lucide-react";
 
 import backgroundImage from '@/public/cgi/bg.png';
 import acmWhiteLogo from '@/public/cgi/acm-white-logo.png';
@@ -59,6 +60,13 @@ export default function RegisterPage() {
 
                   <Card className="w-full max-w-xl bg-black/30 border-white/10 shadow-2xl overflow-hidden">
                   <CardContent className="pt-12 pb-10 px-6 md:px-12">
+
+                  <div className="flex items-center gap-3 mb-8">
+                    <Link href="/" className="flex items-center gap-2 text-white hover:text-white/80 transition-colors">
+                      <ArrowLeft className="w-6 h-6" />
+                      <span className="font-sunday text-lg uppercase">Back</span>
+                    </Link>
+                  </div>
 
                   <h1 className="font-moderna text-[60px] md:text-[100px] lg:text-[120px] font-normal leading-none uppercase text-white tracking-tighter mb-12">
                     REGISTER
