@@ -79,65 +79,24 @@ export default function Home() {
           </div>
 
           <div className="flex-1 flex flex-col items-center justify-end min-h-[calc(100vh-120px)] pb-[10vh] md:pb-[5vh]"> 
-            <h1 className="font-moderna text-[12vw] md:text-[160px] font-normal leading-none uppercase select-none text-transparent bg-clip-text bg-gradient-to-r from-[#FFE9E7] to-[#E84784] tracking-[0.05em] text-center">
+            <h1 className="pt-4 font-moderna text-[90px] sm:text-[120px] md:text-[160px] font-normal leading-none uppercase select-none text-transparent bg-clip-text bg-gradient-to-r from-[#FFE9E7] to-[#E84784] tracking-[0.05em] text-center">
               PEECHI GAMES
             </h1>
             
-            {/* Marquee */}
-            {/* <div className={`w-full ${LAYOUT.maxWidth} mx-auto ${LAYOUT.paddingX} mt-2 md:mt-4`}>
-
-              <div className="w-full overflow-hidden">
-
-                <div className="marquee-track">
-
-                  {[0, 1].map((_, i) => (
-
-                    <div
-
-                      key={i}
-
-                      className="flex items-center gap-13 md:gap-20 lg:gap-24 px-13 font-sunday text-[18px] md:text-[28px] font-normal uppercase text-white leading-none">
-
-                      <span>April 17th</span>
-
-                      <span>7 pm to 9 pm</span>
-
-                      <span>Main Gym</span>
-
-                      <span>Activity Center</span>
-
-                      <Link href="/register">
-
-                        <span className="text-[#E84784] hover:opacity-80 transition-opacity">
-
-                          Register Now
-
-                        </span>
-
-                      </Link>
-
-                    </div>
-
-                  ))}
-
-                </div>
-
-              </div>
-
-            </div> */}
+         
 
             {/* Marquee ie carousel */}
             <div className={`w-full ${LAYOUT.maxWidth} mx-auto ${LAYOUT.paddingX}`}>
               <div className="w-full overflow-hidden">
                 <div className="marquee-track">
                   {[0, 1].map((_, i) => (
-                    <div key={i} className="flex items-center gap-8 md:gap-13 lg:gap-20 px-8 md:px-13 font-sunday text-[16px] md:text-[28px] font-normal uppercase text-white leading-none">
+                    <div key={i} className="flex items-center gap-8 md:gap-13 lg:gap-20 px-8 md:px-13 font-sunday text-[22px] md:text-[28px] font-normal uppercase text-white leading-none">
                       <span>April 17th</span>
                       <span>7 pm to 9 pm</span>
                       <span>Main Gym</span>
                       <span>Activity Center</span>
                       <Link href="/register">
-                        <span className="text-[#E84784] text-[1em] md:text-[1.8em] drop-shadow-[0_0_10px_rgba(232,71,132,0.5)] hover:scale-110 transition-transform inline-block cursor-pointer">
+                        <span className="text-[#E84784] text-[1.5em] sm:text-[1.8em] md:text-[2em] drop-shadow-[0_0_10px_rgba(232,71,132,0.5)] hover:scale-110 transition-transform inline-block cursor-pointer">
                           Register Now
                         </span>
                       </Link>
@@ -146,26 +105,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            {/* <Link href="/register" className="group relative mt-4 mb-2">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#FFE9E7] to-[#E84784] rounded-xl blur opacity-25"></div>
-              <button className="relative px-12 py-2 bg-black/40 backdrop-blur-md border border-white/20 rounded-xl leading-none flex items-center">
-                <span className="font-sunday text-2xl md:text-2xl text-white group-hover:text-[#E84784] transition-colors">
-                  REGISTER NOW
-                </span>
-              </button>
-            </Link> */}
-
-            {/* <div className="fixed bottom-8 right-8 z-50 hidden md:block">
-            <Link href="/register">
-              <div className="bg-[#E84784] hover:bg-[#FF96BE] text-white font-sunday px-8 py-4 rounded-full shadow-2xl transform hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-3">
-                <span className="text-2xl">REGISTER</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-              </div>
-            </Link>
-          </div> */}
-
-
 
 
           </div>
@@ -197,7 +136,7 @@ export default function Home() {
               </div>
 
               <div className="relative z-20 flex flex-col items-center w-full">
-                <h2 className="font-moderna text-[20px] md:text-[32px] text-white uppercase tracking-widest mb-4 md:mb-8">
+                <h2 className="font-moderna text-[20px] md:text-[32px] text-white uppercase tracking-widest mb-8 md:mb-8 pt-2">
                   THE ACM Competition
                 </h2>
 
@@ -221,8 +160,8 @@ export default function Home() {
             </div>
 
             <Link href="/register">
-              <div className="mt-4 border border-white md:border-2 bg-transparent px-2 md:px-3 py-1 md:py-2 rounded-lg flex items-center justify-center">
-                <span className="text-white uppercase text-[10px] md:text-[15px] font-sunday font-normal">
+              <div className="mt-4 border border-white md:border-2 bg-transparent px-4 md:px-3 py-2 md:py-2 rounded-lg flex items-center justify-center">
+                <span className="text-white uppercase text-[14spx] md:text-[15px] font-sunday font-normal">
                   REGISTER
                 </span>
               </div>
