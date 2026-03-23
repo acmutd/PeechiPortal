@@ -133,7 +133,7 @@ export function SignUpForm(){
         <>
         <Form { ... form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                <div className="grid gap-5 md:grid-cols-2">
+                <div className="grid grid-cols-2 gap-5">
                 <FormField
                     control={form.control}
                     name="firstName"
@@ -175,55 +175,57 @@ export function SignUpForm(){
                     )}
                 />
                 </div>
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="flex items-center gap-2 text-xl font-sunday text-white/70">
-                                <Mail className="h-4 w-4" />
-                                Email Address
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="Email Address"
-                                    {...field}
-                                    className="h-12 rounded-none border-x-0 border-t-0 border-b border-white/70 bg-transparent px-0 text-lg text-white placeholder:text-white/40 focus-visible:ring-0"
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="classification"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="flex items-center gap-2 text-xl font-sunday text-white/70">
-                                <GraduationCap className="h-4 w-4" />
-                                Class Year
-                            </FormLabel>
-                            <FormControl>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <SelectTrigger className="h-12 rounded-none border-x-0 border-t-0 border-b border-white/70 bg-transparent px-0 text-lg text-white data-[placeholder]:text-white/40 focus:ring-0">
-                                    <SelectValue placeholder="Select your class year" />
-                                </SelectTrigger>
-                                <SelectContent className="border-white/20 bg-black text-white">
-                                    <SelectGroup>
-                                        <SelectItem value="Freshman" className="focus:bg-white/10 focus:text-white">Freshman</SelectItem>
-                                        <SelectItem value="Sophomore" className="focus:bg-white/10 focus:text-white">Sophomore</SelectItem>
-                                        <SelectItem value="Junior" className="focus:bg-white/10 focus:text-white">Junior</SelectItem>
-                                        <SelectItem value="Senior" className="focus:bg-white/10 focus:text-white">Senior</SelectItem>
-                                        <SelectItem value="Graduate" className="focus:bg-white/10 focus:text-white">Graduate</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <div className="grid gap-5 md:grid-cols-2">
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="flex items-center gap-2 text-xl font-sunday text-white/70">
+                                    <Mail className="h-4 w-4" />
+                                    Email Address
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder="Email Address"
+                                        {...field}
+                                        className="h-12 rounded-none border-x-0 border-t-0 border-b border-white/70 bg-transparent px-0 text-lg text-white placeholder:text-white/40 focus-visible:ring-0"
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="classification"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="flex items-center gap-2 text-xl font-sunday text-white/70">
+                                    <GraduationCap className="h-4 w-4" />
+                                    Class Year
+                                </FormLabel>
+                                <FormControl>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="h-12 rounded-none border-x-0 border-t-0 border-b border-white/70 bg-transparent px-0 text-lg text-white data-[placeholder]:text-white/40 focus:ring-0">
+                                        <SelectValue placeholder="Select your class year" />
+                                    </SelectTrigger>
+                                    <SelectContent className="border-white/20 bg-black text-white">
+                                        <SelectGroup>
+                                            <SelectItem value="Freshman" className="focus:bg-white/10 focus:text-white">Freshman</SelectItem>
+                                            <SelectItem value="Sophomore" className="focus:bg-white/10 focus:text-white">Sophomore</SelectItem>
+                                            <SelectItem value="Junior" className="focus:bg-white/10 focus:text-white">Junior</SelectItem>
+                                            <SelectItem value="Senior" className="focus:bg-white/10 focus:text-white">Senior</SelectItem>
+                                            <SelectItem value="Graduate" className="focus:bg-white/10 focus:text-white">Graduate</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
                 {submitError && (
                     <p className="text-sm text-red-300">{submitError}</p>
