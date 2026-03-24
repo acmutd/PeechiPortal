@@ -12,7 +12,7 @@ import youtubeIcon from "@/public/cgi/logo_youtube.png";
 
 export default function AdminDashboard() {
   return (
-
+    <AuthProvider>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
         <div className="relative min-h-screen w-full flex flex-col overflow-x-hidden bg-black">
 
@@ -83,6 +83,7 @@ export default function AdminDashboard() {
           </div>
         </div>
       </ThemeProvider>
-  
+      
+      </AuthProvider>
   );
 }
