@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 import backgroundImage from '@/public/cgi/bg.png';
 import backgroundImageBottom from '@/public/cgi/bg_bottom.png';
-import vid_placeholder from '@/public/cgi/video_placeholder.png';
 import acmWhiteLogo from '@/public/cgi/acm-white-logo.png';
 import instagramIcon from '@/public/cgi/logo_instagram.png';
 import linkedinIcon from '@/public/cgi/logo_linkedin.png';
@@ -171,7 +170,12 @@ export default function Home() {
             <div className="w-full mt-12 md:mt-20">
               <div className={`${LAYOUT.maxWidth} mx-auto ${LAYOUT.paddingX}`}>
                 <div className="relative w-full h-[300px] sm:h-[350px] md:h-[500px] overflow-hidden border border-white/10">
-                  <Image src={vid_placeholder} alt="Video placeholder" fill className="object-cover" />
+                  <video 
+                    src="/PeechiTrailer.mov" 
+                    controls 
+                    className="w-full h-full object-cover"
+                    poster="/cgi/video_placeholder.png"
+                  />
                 </div>
               </div>
             </div>
