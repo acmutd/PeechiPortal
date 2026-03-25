@@ -22,6 +22,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Home as HomeIcon } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -120,8 +121,8 @@ export default function RegisterPage() {
           {/* Header */}
           <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
             <div className="flex justify-between items-center pt-8 flex-shrink-0">
-              <Link href="https://acmutd.co" target="_blank">
-                <Image src={acmWhiteLogo} alt="ACM Logo" className="h-5 md:h-7 w-auto" />
+              <Link href="/">
+                <HomeIcon className="h-5 md:h-7 w-auto text-white" />
               </Link>
 
               <div className="flex items-center gap-2 md:gap-4">

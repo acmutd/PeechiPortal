@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from 'next/link';
 import { ThemeProvider } from "@/components/theme-provider";
-
+import { Home as HomeIcon } from 'lucide-react';
 import backgroundImage from '@/public/cgi/bg.png';
 import backgroundImageBottom from '@/public/cgi/bg_bottom.png';
 import acmWhiteLogo from '@/public/cgi/acm-white-logo.png';
@@ -59,8 +59,8 @@ export default function Home() {
           {/* Header */}
           <div className={`w-full ${LAYOUT.maxWidth} mx-auto ${LAYOUT.paddingX}`}>
             <div className="flex justify-between items-center pt-8 flex-shrink-0">
-              <Link href="https://acmutd.co" target="_blank">
-                <Image src={acmWhiteLogo} alt="ACM Logo" className="h-5 md:h-7 w-auto" />
+               <Link href="/">
+                <HomeIcon className="h-5 md:h-7 w-auto text-white" />
               </Link>
 
               <div className="flex items-center gap-2 md:gap-4">
@@ -196,11 +196,6 @@ export default function Home() {
                     <p className="font-sunday text-white text-[20px] md:text-[24px] leading-tight">
                       Want to see<br />Previous games?
                     </p>
-                    <Link href="#" className="mt-[-2px]">
-                      <span className="font-sunday text-[#F28EAF] text-[32px] md:text-[48px] hover:underline transition-all">
-                        Click here
-                      </span>
-                    </Link>
                   </div>
                 </div>
               </div>
