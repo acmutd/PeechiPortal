@@ -650,7 +650,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
             </AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="text-white/60 space-y-1">
-                <p>This will eliminate the following players (Round {currentRound}):</p>
+                <p>This will eliminate the following players:</p>
                 <ul className="mt-1 space-y-0.5">
                   {confirmEliminateList.map((p) => (
                     <li key={p.id} className="text-white/80 text-sm">#{p.playernumber} — {p.firstName} {p.lastName}</li>
@@ -685,7 +685,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
               Eliminate {confirmEliminate?.firstName} {confirmEliminate?.lastName}?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/60">
-              Marks them as eliminated (Round {currentRound}). You can revive them later.
+              Marks them as eliminated. You can revive them later.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
