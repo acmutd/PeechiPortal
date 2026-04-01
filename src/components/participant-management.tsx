@@ -332,6 +332,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirmEliminate, setConfirmEliminate] = useState<Participant | null>(null);
+  const [confirmEliminateList, setConfirmEliminateList] = useState<Participant[]>([]);
   const [elimByNumInput, setElimByNumInput] = useState('');
   const [currentRound, setCurrentRound] = useState(1);
 
@@ -410,12 +411,44 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
   };
 
   const handleElimByNum = () => {
-    const num = parseInt(elimByNumInput.trim());
-    if (isNaN(num)) { setError('Enter a valid player number.'); return; }
+    const nums = elimByNumInput.split(',').map((s) => parseInt(s.trim())).filter((n) => !isNaN(n));
+    if (nums.length === 0) { setError('Enter valid player number(s).'); return; }
     setError(null);
-    const player = participants.find((p) => p.playernumber === num && !p.iseliminated);
-    if (!player) { setError(`Player #${num} not found or already eliminated.`); return; }
-    setConfirmEliminate(player);
+    if (nums.length === 1) {
+      const player = participants.find((p) => p.playernumber === nums[0] && p.isCheckedIn && !p.iseliminated);
+      if (!player) { setError(`Player #${nums[0]} not found or already eliminated.`); return; }
+      setConfirmEliminate(player);
+    } else {
+      const found: Participant[] = [];
+      const missing: number[] = [];
+      for (const num of nums) {
+        const player = participants.find((p) => p.playernumber === num && p.isCheckedIn && !p.iseliminated);
+        if (player) found.push(player);
+        else missing.push(num);
+      }
+      if (missing.length > 0) { setError(`Player(s) #${missing.join(', ')} not found or already eliminated.`); return; }
+      setConfirmEliminateList(found);
+    }
+  };
+
+  const handleEliminateMany = async (players: Participant[]) => {
+    setUpdating('mass');
+    setError(null);
+    try {
+      await Promise.all(players.map((p) => updateDoc(doc(db, 'participants', p.id), {
+        iseliminated: true,
+        eliminatedround: currentRound,
+        eliminatedAt: new Date(),
+      })));
+      setSuccess(`${players.length} player${players.length > 1 ? 's' : ''} eliminated.`);
+      setConfirmEliminateList([]);
+      setElimByNumInput('');
+      setTimeout(() => setSuccess(null), 3000);
+    } catch {
+      setError('Failed to eliminate players.');
+    } finally {
+      setUpdating(null);
+    }
   };
 
   const toggleSort = (field: SortField) => {
@@ -426,12 +459,21 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
   return (
     <div className="h-full flex flex-col min-h-0 px-8">
       <div className="pt-6 pb-3 flex-shrink-0 space-y-3">
-        <div className="flex gap-4 text-xs">
-          <span className="text-white/50">Checked In: <span className="text-white font-bold">{checkedIn.length}</span></span>
-          <span className="text-white/30">|</span>
-          <span className="text-white/50">Active: <span className="text-green-400 font-bold">{activeCount}</span></span>
-          <span className="text-white/30">|</span>
-          <span className="text-white/50">Eliminated: <span className="text-red-400 font-bold">{eliminatedCount}</span></span>
+        <div className="flex gap-6 justify-center md:justify-start">
+          <div className="flex flex-col items-center md:items-start">
+            <span className="text-white/50 text-xs uppercase tracking-wide">Checked In</span>
+            <span className="text-white font-bold text-2xl leading-tight">{checkedIn.length}</span>
+          </div>
+          <div className="w-px bg-white/10 self-stretch" />
+          <div className="flex flex-col items-center md:items-start">
+            <span className="text-white/50 text-xs uppercase tracking-wide">Active</span>
+            <span className="text-green-400 font-bold text-2xl leading-tight">{activeCount}</span>
+          </div>
+          <div className="w-px bg-white/10 self-stretch" />
+          <div className="flex flex-col items-center md:items-start">
+            <span className="text-white/50 text-xs uppercase tracking-wide">Eliminated</span>
+            <span className="text-red-400 font-bold text-2xl leading-tight">{eliminatedCount}</span>
+          </div>
         </div>
 
         <div className="relative">
@@ -493,8 +535,8 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
           <div className="relative flex-1">
             <Hash className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40 pointer-events-none" />
             <Input
-              type="number"
-              placeholder="Eliminate by Player #"
+              type="text"
+              placeholder="Player #s — e.g. 2, 5, 7"
               value={elimByNumInput}
               onChange={(e) => setElimByNumInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleElimByNum()}
@@ -517,7 +559,8 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
         <table className="w-full text-sm">
           <thead className="sticky top-0">
             <tr>
-              <th className="text-left text-xs text-white/50 font-medium pb-3 pl-3 pr-4" style={{ backgroundColor: CARD_BG }}>First Name</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pl-3 pr-4 w-10" style={{ backgroundColor: CARD_BG }}>#</th>
+              <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4" style={{ backgroundColor: CARD_BG }}>First Name</th>
               <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4" style={{ backgroundColor: CARD_BG }}>Last Name</th>
               <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4" style={{ backgroundColor: CARD_BG }}>Email Address</th>
               <th className="text-left text-xs text-white/50 font-medium pb-3 pr-4" style={{ backgroundColor: CARD_BG }}>Year</th>
@@ -528,7 +571,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-8 text-center text-white/40">No participants found.</td>
+                <td colSpan={7} className="py-8 text-center text-white/40">No participants found.</td>
               </tr>
             ) : (
               filtered.map((p) => (
@@ -541,7 +584,10 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
                     p.iseliminated && 'opacity-50'
                   )}
                 >
-                  <td className={cn('py-3 pl-3 pr-4 text-white', p.iseliminated && 'line-through text-white/40')}>
+                  <td className="py-3 pl-3 pr-4 text-white/40 text-xs font-mono">
+                    {p.playernumber ?? '—'}
+                  </td>
+                  <td className={cn('py-3 pr-4 text-white', p.iseliminated && 'line-through text-white/40')}>
                     {p.firstName}
                   </td>
                   <td className={cn('py-3 pr-4 text-white', p.iseliminated && 'line-through text-white/40')}>
@@ -593,6 +639,42 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
       <div className="pb-4 flex-shrink-0" />
 
       <AlertDialog
+        open={confirmEliminateList.length > 0}
+        onOpenChange={(open) => { if (!open) { setConfirmEliminateList([]); setElimByNumInput(''); } }}
+      >
+        <AlertDialogContent style={{ backgroundColor: '#2a2a2a', borderColor: '#555' }}>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-white flex items-center gap-2">
+              <Skull className="h-5 w-5 text-red-400" />
+              Eliminate {confirmEliminateList.length} player{confirmEliminateList.length !== 1 ? 's' : ''}?
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="text-white/60 space-y-1">
+                <p>This will eliminate the following players:</p>
+                <ul className="mt-1 space-y-0.5">
+                  {confirmEliminateList.map((p) => (
+                    <li key={p.id} className="text-white/80 text-sm">#{p.playernumber} — {p.firstName} {p.lastName}</li>
+                  ))}
+                </ul>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel style={{ backgroundColor: '#3c3c3c', borderColor: '#555', color: 'white' }}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => handleEliminateMany(confirmEliminateList)}
+              disabled={updating === 'mass'}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              {updating === 'mass' ? 'Eliminating...' : 'Confirm'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
         open={!!confirmEliminate}
         onOpenChange={(open) => { if (!open) { setConfirmEliminate(null); setElimByNumInput(''); } }}
       >
@@ -603,7 +685,7 @@ function EliminateTab({ participants }: { participants: Participant[] }) {
               Eliminate {confirmEliminate?.firstName} {confirmEliminate?.lastName}?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/60">
-              Marks them as eliminated (Round {currentRound}). You can revive them later.
+              Marks them as eliminated. You can revive them later.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
