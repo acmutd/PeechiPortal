@@ -192,6 +192,8 @@ function CheckInTab({ participants }: { participants: Participant[] }) {
   });
 
   const selected = participants.find((p) => p.id === selectedId);
+  const checkedInCount = participants.filter((p) => p.isCheckedIn).length;
+  const pendingCount = participants.length - checkedInCount;
 
   const handleCheckIn = async (participantId: string) => {
     setUpdating(participantId);
@@ -240,6 +242,22 @@ function CheckInTab({ participants }: { participants: Participant[] }) {
   return (
     <div className="h-full flex flex-col min-h-0 px-8">
       <div className="pt-6 pb-3 flex-shrink-0 space-y-3">
+        <div className="flex gap-6 justify-center md:justify-start">
+          <div className="flex flex-col items-center md:items-start">
+            <span className="text-white/50 text-xs uppercase tracking-wide">Registered</span>
+            <span className="text-white font-bold text-2xl leading-tight">{participants.length}</span>
+          </div>
+          <div className="w-px bg-white/10 self-stretch" />
+          <div className="flex flex-col items-center md:items-start">
+            <span className="text-white/50 text-xs uppercase tracking-wide">Checked In</span>
+            <span className="text-green-400 font-bold text-2xl leading-tight">{checkedInCount}</span>
+          </div>
+          <div className="w-px bg-white/10 self-stretch" />
+          <div className="flex flex-col items-center md:items-start">
+            <span className="text-white/50 text-xs uppercase tracking-wide">Pending</span>
+            <span className="text-yellow-400 font-bold text-2xl leading-tight">{pendingCount}</span>
+          </div>
+        </div>
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
           <Input
